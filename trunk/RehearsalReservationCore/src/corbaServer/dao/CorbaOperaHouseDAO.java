@@ -3,6 +3,7 @@ package corbaServer.dao;
 import java.sql.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import corbaServer.RehearsalDO;
@@ -26,18 +27,17 @@ public class CorbaOperaHouseDAO implements ICorbaOperaHouseDAO {
 	}
 
 	public List<RehearsalDO> getRehearsals() throws SQLException {
-		List<RehearsalDO> rehearsals = null;
-		
+		List<RehearsalDO> rehearsals = new ArrayList();
+		RehearsalDO r = null;
 		String query = "select * from RehearsalsT ";
 		
 		Statement stmt = con.createStatement();
 		stmt.executeQuery(query);
 		ResultSet rs = stmt.executeQuery(query);
 		
-		while(rs.next()){
-			rs.getString("OperaName");
-			rs.getString("RehearsalsDate");
-			rs.getInt("Seats");
+		while(rs.next()){			
+			r = new RehearsalDO(rs.getString("OPERANAME"),rs.getString("REHEARSALDATE"),rs.getInt("SEATS"));
+			rehearsals.add(r); 
 		}
 		
 		rs.close();
