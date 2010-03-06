@@ -1,6 +1,7 @@
 package corbaServer.dao;
 
-import java.sql.SQLException;
+import java.sql.*;
+
 
 import java.util.List;
 
@@ -10,12 +11,12 @@ public class CorbaOperaHouseDAO implements ICorbaOperaHouseDAO {
 
 	Connection con= null;
 
-	public void connect() {
+	public void connect() throws SQLException {
 		
 		try{
 			Class.forName("org.sqlite.JDBC");
 		}catch(ClassNotFoundException e){
-			System.out.println(“Unable to load Driver Class”);
+			System.out.println("Unable to load Driver Class");
 		}
 		// This url is neccesary to change it if we want to make two server programming just one class?
 		String url = "jdbc:sqlite:db/corba-db/scalaMilano.db";
@@ -29,8 +30,8 @@ public class CorbaOperaHouseDAO implements ICorbaOperaHouseDAO {
 		
 		String query = "select * from RehearsalsT ";
 		
-		stmt.executeQuery(query);
 		Statement stmt = con.createStatement();
+		stmt.executeQuery(query);
 		ResultSet rs = stmt.executeQuery(query);
 		
 		while(rs.next()){
@@ -45,7 +46,7 @@ public class CorbaOperaHouseDAO implements ICorbaOperaHouseDAO {
 		return rehearsals;
 	}
 
-	public void disconnect() {
+	public void disconnect() throws SQLException {
 		con.close();
 	}
 }
