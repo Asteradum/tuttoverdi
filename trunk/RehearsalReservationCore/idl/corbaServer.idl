@@ -12,11 +12,12 @@ module corbaServer{
   //  The rest of the IDL file must be completed by the students
 		//Interface for the CORBA Server
 		interface ICorbaServer{
-			List<corbaServerRehearsalDTO> getRehearsals();
+			typedef sequence<corbaServerRehearsalDTO> RehearsalList;
+			RehearsalList getRehearsals();
 		
 		};
 		//Exceptions
             
-        };
+
     };
 };
