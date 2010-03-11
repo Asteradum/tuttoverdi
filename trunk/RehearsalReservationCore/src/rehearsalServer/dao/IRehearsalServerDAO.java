@@ -1,11 +1,13 @@
 package rehearsalServer.dao;
 
+import java.sql.SQLException;
+
 public interface IRehearsalServerDAO {
-	public void connect();
+	public void connect()throws SQLException;;
 
-	public int getReservationsCount(String operaHouse, String operaName);
+	public int getReservationsCount(String operaHouse, String operaName)throws SQLException;
 
-	public void reserveSeat(String studName, String operaHouse, String operaName);
+	public void reserveSeat(String studName, String operaHouse, String operaName)throws SQLException;
 
-	public void disconnect();
+	public void disconnect() throws SQLException;
 }
