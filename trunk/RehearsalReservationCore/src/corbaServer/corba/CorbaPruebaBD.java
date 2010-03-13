@@ -16,7 +16,7 @@ public class CorbaPruebaBD {
 		List<RehearsalDO> lista= null;
 		RehearsalDO r = null;
 		
-		bd.connect();
+		bd.connect("scalaMilano");
 		lista = bd.getRehearsals();
 		Iterator iter = lista.iterator();
 		while (iter.hasNext()){
