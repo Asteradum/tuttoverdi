@@ -8,7 +8,7 @@ import java.util.List;
 import corbaServer.RehearsalDO;
 
 public interface ICorbaOperaHouseDAO {
-	public void connect() throws SQLException;
+	public void connect(String DBName) throws SQLException;
 
 	public List<RehearsalDO> getRehearsals() throws SQLException;
 

@@ -12,16 +12,16 @@ public class CorbaOperaHouseDAO implements ICorbaOperaHouseDAO {
 
 	Connection con= null;
 
-	public void connect() throws SQLException {
+	public void connect(String DBName) throws SQLException {
 		
 		try{
 			Class.forName("org.sqlite.JDBC");
 		}catch(ClassNotFoundException e){
 			System.out.println("Unable to load Driver Class");
 		}
-		// This url is neccesary to change it if we want to make two server programming just one class?
-		String url = "jdbc:sqlite:db/corba-db/scalaMilano.db";
-		// We need to introduce de Login/Password?
+		//Is this the correct way to allow variability?
+		String url = "jdbc:sqlite:db/corba-db/"+ DBName +".db";
+		// We need to introduce the Login/Password?
 		con = DriverManager.getConnection(url,"(Login)","(Password)");
 		
 	}
