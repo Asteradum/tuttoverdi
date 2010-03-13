@@ -25,6 +25,16 @@ public class CorbaPruebaBD {
 		}
 		
 		bd.disconnect();
+		
+		// Aprovecho este main para hacer prueba con los metodos de la clase Server
+		
+		Server Server = new Server("scalaMilano");
+		corbaServerRehearsalDTO AList[] = Server.getRehearsals();
+		
+		for (int i=0;i<AList.length;i++){
+			System.out.println(AList[i].operaName + "     " + AList[i].date  + "     " + AList[i].seats);
+			  
+		}
 	}
 
 }

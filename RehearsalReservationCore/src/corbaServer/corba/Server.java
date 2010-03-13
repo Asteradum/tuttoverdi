@@ -50,7 +50,7 @@ public class Server extends ICorbaServerPOA {
 			//We have to change this
 			e.printStackTrace();
 		}
-		return null;
+		return AList;
 	}
 
 	}
