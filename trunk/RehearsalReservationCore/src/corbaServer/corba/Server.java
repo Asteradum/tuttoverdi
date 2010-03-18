@@ -11,7 +11,7 @@ public class Server extends ICorbaServerPOA {
 
 	private String DBName= null;
 	
-	Server(String DBName){
+	public Server(String DBName){
 		this.DBName=DBName;
 	}
 	

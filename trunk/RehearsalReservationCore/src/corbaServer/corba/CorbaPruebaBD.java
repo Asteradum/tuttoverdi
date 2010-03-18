@@ -4,8 +4,11 @@ import java.sql.SQLException;
 
 import corbaServer.dao.CorbaOperaHouseDAO;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import rehearsalServer.houseGateway.CorbaHouseGateway;
 
 import corbaServer.RehearsalDO;
 
@@ -34,6 +37,18 @@ public class CorbaPruebaBD {
 		for (int i=0;i<AList.length;i++){
 			System.out.println(AList[i].operaName + "     " + AList[i].date  + "     " + AList[i].seats);
 			  
+		}
+		
+		// Aprovecho este main para hacer prueba con los metodos de la clase CorbaHouseGateway
+		
+		CorbaHouseGateway gate = new CorbaHouseGateway("scalaMilano");
+		List<rehearsalServer.houseGateway.RehearsalDO> lista2= new ArrayList<rehearsalServer.houseGateway.RehearsalDO>();
+		rehearsalServer.houseGateway.RehearsalDO r2 = null;
+		
+		lista2 = gate.getRehearsals();
+		for (int i=0;i<lista2.size();i++){
+		  r2 = lista2.get(i);
+		  System.out.println(r2.getOperaName() + "     " + r2.getDate() + "     " + r2.getAvailableSeats());
 		}
 	}
 
