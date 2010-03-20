@@ -4,14 +4,14 @@
 	<property environment="env"/>
 	<property name="source.dir" location="src"/>
     <property name="build.dir" location="bin"/>
-	<property name="classpath" location="bin"/>
+	<property name="classpath" location="bin;lib"/>
 	<property name="idl.file" location="idl/corbaServer.idl"/>
 	<property name="nameservice.IP" value="127.0.0.1"/>
 	<property name="nameservice.port" value="900"/>
-	<property name="server.name" value="ScalaMilano"/>
+	<property name="ScalaMilanoServer.name" value="ScalaMilano"/>
 
 	<target name="help">
-		<echo>Usage: ant [idlj | build | tnameserv | server | client]</echo>
+		<echo>Usage: ant [idlj | build | tnameserv | ScalaMilanoServer | client]</echo>
 	</target>
 
 	<target name="idlj" description="Builds IDL file">
@@ -27,7 +27,7 @@
 		<echo message="CORBA Name Service running at port (${nameservice.port})..."/>
 		<exec executable="${env.JAVA_HOME}\bin\tnameserv.exe">
 			<arg value="-ORBInitialPort" />
-			<arg value="900" />
+			<arg value="$(nameservice.port)" />
 		</exec>
 	</target>
         
@@ -37,11 +37,11 @@
 		<javac srcdir="${source.dir}" destdir="${build.dir}" classpath="${classpath}" deprecation="true" fork="true"/>
     </target>
     
-	<target name="server" description="Executes Server program">
-		<java classname="donaciones.servidor.ServidorDonaciones" classpath="${classpath}" fork="true">			
+	<target name="ScalaMilanoServer" description="Executes ScalaMilanoServer program">
+		<java classname="corbaServer.CorbaOperaHouse" classpath="${classpath}" fork="true">			
         	<arg value="${nameservice.IP}"/> 
 	 		<arg value="${nameservice.port}"/>
-	 		<arg value="${server.name}"/>
+	 		<arg value="${ScalaMilanoServer.name}"/>
         </java>
     </target>
 
