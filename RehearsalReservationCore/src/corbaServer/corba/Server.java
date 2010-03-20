@@ -15,7 +15,7 @@ public class Server extends ICorbaServerPOA {
 		this.DBName=DBName;
 	}
 	
-	public corbaServerRehearsalDTO[] getRehearsals(){
+	public corbaServerRehearsalDTO[] getRehearsals() throws DBErrorException{
 		CorbaOperaHouseDAO bd =new CorbaOperaHouseDAO();
 		List<RehearsalDO> list= null;
 		RehearsalDO r = null;
@@ -24,8 +24,7 @@ public class Server extends ICorbaServerPOA {
 		try {
 			bd.connect(DBName);
 		} catch (SQLException e) {
-			//We have to change this
-			e.printStackTrace();
+			throw new DBErrorException("Database Connection Error", "Unable to connect to Database: " + DBName);
 		}
 		
 		try {
@@ -40,15 +39,13 @@ public class Server extends ICorbaServerPOA {
 			}
 			
 		} catch (SQLException e) {
-			//We have to change this
-			e.printStackTrace();
+			throw new DBErrorException("Database Error", "Unable to recover data from: " + DBName + " Database");
 		}
 		
 		try {
 			bd.disconnect();
 		} catch (SQLException e) {
-			//We have to change this
-			e.printStackTrace();
+			throw new DBErrorException("Database Connection closing Error", "Unable to close correctly the DataBase connection");
 		}
 		return AList;
 	}
