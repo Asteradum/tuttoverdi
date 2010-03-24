@@ -6,5 +6,5 @@ package rehearsalServer;
  * 
  * TO BE COMPLETED BY THE STUDENTS
  */
-public interface IOperaRehearsalServer {
+public interface IOperaRehearsalServer extends util.observer.rmi.IRemoteObservable {
 }
