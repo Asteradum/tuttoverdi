@@ -19,10 +19,10 @@ public class OperasHGatewayFactory {
 	}
 	
 	
-	public IOperaHGateway getOperaHGateway(String serviceUri, String serverTech) {
+	public IOperaHGateway getOperaHGateway(String serviceUrl, String serverTech) {
 		IOperaHGateway the_gateway = null;
 		if (serverTech=="corba")
-			the_gateway=new CorbaHouseGateway("scalaMILANO");
+			the_gateway=new CorbaHouseGateway(serviceUrl);
 		/*if (serverTech=="ws")
 			the_gateway=new WSHouseGateway();*/
 		
