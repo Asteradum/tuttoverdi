@@ -58,7 +58,7 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 	innerMap=new TreeMap<String,RehearsalRMIDTO>();
 	////////////////////////////////////////////////////////
 	OperasHGatewayFactory op= OperasHGatewayFactory.GetInstance();
-	IOperaHGateway gateway = op.getOperaHGateway("", "corba");
+	IOperaHGateway gateway = op.getOperaHGateway("scalaMilano", "corba");
 	//CorbaHouseGateway gate= gateway.
 	 
 	List<rehearsalServer.houseGateway.RehearsalDO> lista= new ArrayList<rehearsalServer.houseGateway.RehearsalDO>();
