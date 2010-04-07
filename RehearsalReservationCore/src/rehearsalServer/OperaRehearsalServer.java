@@ -17,10 +17,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import rehearsalServer.dao.IRehearsalServerDAO;
 import rehearsalServer.dao.RehearsalServerDAO;
 import rehearsalServer.houseGateway.CorbaHouseGateway;
 import rehearsalServer.houseGateway.IOperaHGateway;
 import rehearsalServer.houseGateway.OperasHGatewayFactory;
+import rehearsalServer.loginGateway.IAuthorizeGateway;
+import rehearsalServer.loginGateway.ValidationException;
 
 import util.observer.rmi.IRemoteObserver;
 import util.observer.rmi.RemoteObservable;
@@ -32,9 +35,15 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 	 * loaded at the initialization process
 	 */
 	private util.observer.rmi.RemoteObservable rO;
+	private static IAuthorizeGateway gateway;
+	private IRehearsalServerDAO dao;
 	private static  Map<String, Map<String, RehearsalRMIDTO>> rehearsalCache;
 	private static Map<String,RehearsalRMIDTO> innerMap;
 	
+	public String login(String user, String pass) throws ValidationException {
+		
+  	    return   gateway.login(user, pass);	
+}
 	
 	public  OperaRehearsalServer() throws RemoteException, SQLException{
 		super();
@@ -45,8 +54,8 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 	Map<String, Map<String, RehearsalRMIDTO>> getRehearsalCache() throws SQLException
 	  
 	{
-	rehearsalCache= new HashMap<String,Map<String, RehearsalRMIDTO>>();
-	innerMap=new HashMap<String,RehearsalRMIDTO>();
+	rehearsalCache= new TreeMap<String,Map<String, RehearsalRMIDTO>>();
+	innerMap=new TreeMap<String,RehearsalRMIDTO>();
 	////////////////////////////////////////////////////////
 	OperasHGatewayFactory op= OperasHGatewayFactory.GetInstance();
 	IOperaHGateway gateway = op.getOperaHGateway("", "corba");
@@ -71,6 +80,16 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 	return rehearsalCache;
 	
 	}
+	
+	public void reserveSeat (String studName, String operaHouse, String operaName){
+	   boolean place=true;
+	   place=dao.placeAvailable(operaName, operaHouse);
+	   if (place)
+	   {
+		   dao.reserveSeat(studName, operaHouse, operaName);
+		   dao.reduce(operaHouse, operaName);
+		}
+	   }
 	
 	
 	public static void main(String[] args) {
