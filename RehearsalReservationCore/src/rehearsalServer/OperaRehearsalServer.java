@@ -150,7 +150,18 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 
 	@Override
 	public List<RehearsalRMIDTO> getRehearsals() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<RehearsalRMIDTO> list =new ArrayList<RehearsalRMIDTO>();
+		for (Iterator it=rehearsalCache.values().iterator();it.hasNext();) {
+			innerMap=(TreeMap<String,RehearsalRMIDTO>)it.next();
+			for (Iterator it2=rehearsalCache.values().iterator();it2.hasNext();) {
+				list.add((RehearsalRMIDTO)it2.next());
+			}
+			
+		}
+		
+		return list;
+		
 	}
+
 }
