@@ -9,7 +9,6 @@ import org.omg.CosNaming.NamingContextExtHelper;
 
 import corbaServer.corba.ICorbaServer;
 import corbaServer.corba.ICorbaServerHelper;
-import corbaServer.corba.Server;
 import corbaServer.corba.corbaServerRehearsalDTO;
 
 
