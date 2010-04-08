@@ -39,13 +39,13 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 	private util.observer.rmi.RemoteObservable rO;
 	private static IAuthorizeGateway gateway;
 	private IRehearsalServerDAO dao;
-	private   TreeMap<String, TreeMap<String, RehearsalRMIDTO>> rehearsalCache;
-	private  TreeMap<String,RehearsalRMIDTO> innerMap;
+	private TreeMap<String, TreeMap<String, RehearsalRMIDTO>> rehearsalCache;
+	private TreeMap<String,RehearsalRMIDTO> innerMap;
 	
 	public String login(String user, String pass) throws ValidationException {
 		
   	    return   gateway.login(user, pass);	
-}
+	}
 	
 	public  OperaRehearsalServer() throws RemoteException, SQLException{
 		super();
@@ -53,38 +53,32 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 		rehearsalCache=getRehearsalCache();
 	}
 	  
-	TreeMap<String, TreeMap<String, RehearsalRMIDTO>> getRehearsalCache() throws SQLException
-	  
+	TreeMap<String, TreeMap<String, RehearsalRMIDTO>> getRehearsalCache() throws SQLException  
 	{
-	rehearsalCache= new TreeMap<String,TreeMap<String, RehearsalRMIDTO>>();
-	innerMap=new TreeMap<String,RehearsalRMIDTO>();
-	////////////////////////////////////////////////////////
-	OperasHGatewayFactory op= OperasHGatewayFactory.GetInstance();
-	IOperaHGateway gateway = op.getOperaHGateway("ScalaMilano", "corba");
-	//CorbaHouseGateway gate= gateway.
-	 
-	List<rehearsalServer.houseGateway.RehearsalDO> lista= new ArrayList<rehearsalServer.houseGateway.RehearsalDO>();
-	rehearsalServer.houseGateway.RehearsalDO rehearsal = null;
-	lista = gateway.getRehearsals();
-	
-	RehearsalServerDAO p= new RehearsalServerDAO();
-	p.connect();
-	for (int i=0;i<lista.size();i++){
-		rehearsal = lista.get(i);
-		String opera=rehearsal.getOperaName();
-		int sitiosOcup=p.getReservationsCount("ScalaMILANO",opera);
-		int sitiosTotal=rehearsal.getAvailableSeats();
-		RehearsalRMIDTO DTO= new RehearsalRMIDTO("ScalaMILANO", opera, rehearsal.getDate(), sitiosTotal-sitiosOcup);
-		innerMap.put(opera, DTO);
-	}
-	rehearsalCache.put("ScalaMILANO", innerMap);
-	p.disconnect();
-	TreeMap tp= new TreeMap (rehearsalCache.get("ScalaMILANO"));
-	RehearsalRMIDTO dto= new RehearsalRMIDTO ((RehearsalRMIDTO) tp.get("Nabucco"));
-	int opera= dto.getAvailableSeats();
-	System.out.println(opera);
-	return rehearsalCache;
-	
+		rehearsalCache= new TreeMap<String,TreeMap<String, RehearsalRMIDTO>>();
+		innerMap=new TreeMap<String,RehearsalRMIDTO>();
+		////////////////////////////////////////////////////////
+		OperasHGatewayFactory op= OperasHGatewayFactory.GetInstance();
+		IOperaHGateway gateway = op.getOperaHGateway("ScalaMilano", "corba");
+		//CorbaHouseGateway gate= gateway.
+		 
+		List<rehearsalServer.houseGateway.RehearsalDO> lista= new ArrayList<rehearsalServer.houseGateway.RehearsalDO>();
+		rehearsalServer.houseGateway.RehearsalDO rehearsal = null;
+		lista = gateway.getRehearsals();
+		
+		RehearsalServerDAO p= new RehearsalServerDAO();
+		p.connect();
+		for (int i=0;i<lista.size();i++){
+			rehearsal = lista.get(i);
+			String opera=rehearsal.getOperaName();
+			int sitiosOcup=p.getReservationsCount("ScalaMILANO",opera);
+			int sitiosTotal=rehearsal.getAvailableSeats();
+			RehearsalRMIDTO DTO= new RehearsalRMIDTO("ScalaMILANO", opera, rehearsal.getDate(), sitiosTotal-sitiosOcup);
+			innerMap.put(opera, DTO);
+		}
+		rehearsalCache.put("ScalaMILANO", innerMap);
+		p.disconnect();
+		return rehearsalCache;
 	}
 	
 	public void reserveSeat (String studName, String operaHouse, String operaName){
@@ -95,7 +89,7 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 		   dao.reserveSeat(studName, operaHouse, operaName);
 		   dao.reduce(operaHouse, operaName);
 		}
-	   }
+	}
 	
 	
 	public static void main(String[] args) throws RemoteException, SQLException {
@@ -154,7 +148,7 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 		List<RehearsalRMIDTO> list =new ArrayList<RehearsalRMIDTO>();
 		for (Iterator it=rehearsalCache.values().iterator();it.hasNext();) {
 			innerMap=(TreeMap<String,RehearsalRMIDTO>)it.next();
-			for (Iterator it2=rehearsalCache.values().iterator();it2.hasNext();) {
+			for (Iterator it2=innerMap.values().iterator();it2.hasNext();) {
 				list.add((RehearsalRMIDTO)it2.next());
 			}
 			
