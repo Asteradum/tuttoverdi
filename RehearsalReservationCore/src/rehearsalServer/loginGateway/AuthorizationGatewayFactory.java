@@ -12,6 +12,7 @@ public class AuthorizationGatewayFactory {
 	// Add your code here
 	// THIS CLASS MUST BE A SINGLETON
 	private static AuthorizationGatewayFactory instance=null;
+	
 	private AuthorizationGatewayFactory(){}
 	
 	public static AuthorizationGatewayFactory GetInstance()
