@@ -20,16 +20,16 @@ public class AuthRMIGateway implements IAuthorizeGateway  {
 	public AuthRMIGateway(String serviceUri) {
 
 	}
-
+//cambiar las excepciones, mandarlas al cliente
 	public String login(String user, String pass) throws ValidationException {
 		String studentName = null;
 		try {
 			studentName = iauth.login(user, pass);
 			System.out.println("The name of the student is: " + studentName);
 		} catch (InvalidUserException e) {
-			System.out.println("Invalid Username Exception");
+			throw new ValidationException ("Invalid Username Exception");
 		} catch (InvalidPasswordException e) {
-			System.out.println("Invalid Password Exception");
+			throw new ValidationException ("Invalid Password Exception");
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
