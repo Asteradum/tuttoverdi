@@ -16,9 +16,11 @@ public class AuthRMIGateway implements IAuthorizeGateway  {
 	 * must use the interface and exceptions contained in
 	 * AuthorizationRMIClient.jar THIS SECTION BELONGS TO THE FIRST ASSIGNMENT
 	 */
-	private IAuthorizationRMI iauth;	
-	public AuthRMIGateway(String serviceUri) {
-
+	private IAuthorizationRMI iauth;
+	
+	
+	public AuthRMIGateway(String serviceURL) {
+		getAuthManager(serviceURL);
 	}
 
 	public String login(String user, String pass) throws ValidationException {
@@ -39,21 +41,18 @@ public class AuthRMIGateway implements IAuthorizeGateway  {
 		
 	}
 	
-/*	
-	private void getAuthManager(String host, String port, String nam) 
-	//copiado literal del "TestCase" (authorization RMI)
+
+	private void getAuthManager(String serviceURL) 
 	{
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new RMISecurityManager());
 		}
 		try {
-			String name = "//" + host + ":" + port + "/" + nam + "";
-			iauth = (IAuthorizationRMI) Naming.lookup(name);
+			iauth = (IAuthorizationRMI) Naming.lookup(serviceURL);
 
 		} catch (Exception e) {
 			System.err.println("Error in Authorization Manager.  getAuthManager(): " + e.getMessage());
 		}
-	}
-*/	
+	}	
 
 }
