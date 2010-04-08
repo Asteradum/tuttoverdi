@@ -24,6 +24,14 @@ public class RehearsalRMIDTO {
 		availableSeats = s;
 	}
 
+	public RehearsalRMIDTO(RehearsalRMIDTO rmi) {
+		operaHouse=rmi.getOperaHouse();
+		operaName=rmi.getOperaName();
+		date=rmi.getDate();
+		availableSeats=rmi.getAvailableSeats();
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getOperaHouse() {
 		return operaHouse;
 	}
