@@ -22,11 +22,11 @@ public class AuthorizationGatewayFactory {
 		return instance;
 	}
 	
-	public IAuthorizeGateway getAuthGateway(String serviceUri,String serviceTech) {
+	public IAuthorizeGateway getAuthGateway(String serviceUrl,String serviceTech) {
 		if (serviceTech.equals("rmi")) {
-			return new AuthRMIGateway(serviceUri);
+			return new AuthRMIGateway(serviceUrl);
 		} else if (serviceTech.equals("ws")) {
-			return new AuthWSGateway(serviceUri);
+			return new AuthWSGateway(serviceUrl);
 		} else {
 			return null;
 		}
