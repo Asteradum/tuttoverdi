@@ -20,7 +20,7 @@ public class AuthRMIGateway implements IAuthorizeGateway  {
 	public AuthRMIGateway(String serviceUri) {
 
 	}
-//cambiar las excepciones, mandarlas al cliente
+
 	public String login(String user, String pass) throws ValidationException {
 		String studentName = null;
 		try {
