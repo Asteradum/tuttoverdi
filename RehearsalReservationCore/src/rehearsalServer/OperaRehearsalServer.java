@@ -24,6 +24,8 @@ import rehearsalServer.dao.RehearsalServerDAO;
 import rehearsalServer.houseGateway.CorbaHouseGateway;
 import rehearsalServer.houseGateway.IOperaHGateway;
 import rehearsalServer.houseGateway.OperasHGatewayFactory;
+import rehearsalServer.loginGateway.AuthRMIGateway;
+import rehearsalServer.loginGateway.AuthorizationGatewayFactory;
 import rehearsalServer.loginGateway.IAuthorizeGateway;
 import rehearsalServer.loginGateway.ValidationException;
 
@@ -36,14 +38,15 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 	 * CACHE OF RehearsalRMIDTO objects, organized by Opera House Name To be
 	 * loaded at the initialization process
 	 */
-	private util.observer.rmi.RemoteObservable rO;
-	private static IAuthorizeGateway gateway;
-	private IRehearsalServerDAO dao;
-	private TreeMap<String, TreeMap<String, RehearsalRMIDTO>> rehearsalCache;
-	private TreeMap<String,RehearsalRMIDTO> innerMap;
+	private util.observer.rmi.RemoteObservable rO = null;
+	private static IAuthorizeGateway gateway = null;
+	private IRehearsalServerDAO dao= new RehearsalServerDAO();
+	private TreeMap<String, TreeMap<String, RehearsalRMIDTO>> rehearsalCache = null;
+	private TreeMap<String,RehearsalRMIDTO> innerMap = null;
 	
 	public String login(String user, String pass) throws ValidationException {
-		
+		// Tiene que hacer uso del factory, pasandole los aprametros, pero de donde los saca?
+		gateway = AuthorizationGatewayFactory.GetInstance().getAuthGateway("//127.0.0.1:1099/AuthorizationService", "rmi");
   	    return   gateway.login(user, pass);	
 	}
 	
@@ -71,24 +74,38 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 		for (int i=0;i<lista.size();i++){
 			rehearsal = lista.get(i);
 			String opera=rehearsal.getOperaName();
-			int sitiosOcup=p.getReservationsCount("ScalaMILANO",opera);
+			int sitiosOcup=p.getReservationsCount("ScalaMilano",opera);
 			int sitiosTotal=rehearsal.getAvailableSeats();
-			RehearsalRMIDTO DTO= new RehearsalRMIDTO("ScalaMILANO", opera, rehearsal.getDate(), sitiosTotal-sitiosOcup);
+			RehearsalRMIDTO DTO= new RehearsalRMIDTO("ScalaMilano", opera, rehearsal.getDate(), sitiosTotal-sitiosOcup);
 			innerMap.put(opera, DTO);
 		}
-		rehearsalCache.put("ScalaMILANO", innerMap);
+		rehearsalCache.put("ScalaMilano", innerMap);
 		p.disconnect();
 		return rehearsalCache;
 	}
 	
 	public void reserveSeat (String studName, String operaHouse, String operaName){
 	   boolean place=true;
-	   place=dao.placeAvailable(operaName, operaHouse);
-	   if (place)
-	   {
-		   dao.reserveSeat(studName, operaHouse, operaName);
-		   dao.reduce(operaHouse, operaName);
+	   RehearsalRMIDTO r= null;
+	   
+	   try {
+			dao.connect();
+			innerMap=rehearsalCache.get(operaHouse);
+			r = innerMap.get(operaName);
+			if (r.getAvailableSeats()>0)
+			{
+				dao.reserveSeat(studName, operaHouse, operaName);
+				
+				r.decAvailableSeats(1);				
+				innerMap.put(operaName, r);
+				rehearsalCache.put(operaHouse, innerMap);
+			}
+			dao.disconnect();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+	      
 	}
 	
 	
