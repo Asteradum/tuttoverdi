@@ -38,6 +38,8 @@ public class AuthRMIGateway implements IAuthorizeGateway  {
 		
 		
 	}
+	
+/*	
 	private void getAuthManager(String host, String port, String nam) 
 	//copiado literal del "TestCase" (authorization RMI)
 	{
@@ -52,4 +54,6 @@ public class AuthRMIGateway implements IAuthorizeGateway  {
 			System.err.println("Error in Authorization Manager.  getAuthManager(): " + e.getMessage());
 		}
 	}
+*/	
+
 }
