@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import corbaServer.RehearsalDO;
@@ -36,8 +38,8 @@ public class RehearsalServerDAO implements IRehearsalServerDAO{
 		stmt.close();
 		return i;
 	}
-	
-	public void reduce (String operaHouse, String opera)
+	/*
+	private void reduce(String operaHouse, String opera)
 	{  int num=0;
 		String query="SELECT SEATS from "+operaHouse+"where  OPERANAME='"+opera+"' ";
 		   Statement stmt;
@@ -63,7 +65,7 @@ public class RehearsalServerDAO implements IRehearsalServerDAO{
 			}
 			
 	}
-	
+	*/
 			
 	public List<String> getOperaHouse() throws SQLException{
 		List<String> lista=new ArrayList();
@@ -79,49 +81,37 @@ public class RehearsalServerDAO implements IRehearsalServerDAO{
 		stmt.close();
 		return lista;
 	}
-	public void reserveSeat(String studName, String operaHouse, String operaName) {
-		
-		
-		String sentencia = " INSERT INTO ReservationsT VALUES('"+ studName+ "','"+operaHouse+"','"+operaName+"',"+ "14/02/2010)";
-		Statement stmt;
-		try {
-			stmt = con.createStatement();
-		
-		stmt.executeUpdate(sentencia);
-		stmt.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-		
-	   public boolean placeAvailable (String opera, String operaHouse){ 
-
-		   boolean place =true;
-		   String query="SELECT SEATS from "+operaHouse+"where  OPERANAME='"+opera+"' ";
-		   Statement stmt;
-		try {
-			stmt = con.createStatement();
-		
-			stmt.executeQuery(query);
-			ResultSet rs = stmt.executeQuery(query);
-			while(rs.next()){			
-				String number=rs.toString();
-				if (number.equals("0")==true)
-					place = false;
-			}
-			rs.close();
-			stmt.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-			return place;
-		   
-	   }
 	
+	public void reserveSeat(String studName, String operaHouse, String operaName) throws SQLException {	
+		
+		String sentencia = "INSERT INTO ReservationsT VALUES('"+ studName+ "','"+operaHouse+"','"+operaName+"'," + new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + ")";
+		Statement stmt;
+			stmt = con.createStatement();
+			stmt.executeUpdate(sentencia);
+			stmt.close();	
+	}
+	
+/*	
+   public boolean placeAvailable (String opera) throws SQLException{ 
+
+	   boolean place =true;
+	   String query="SELECT SEATS from ReservationsT where  OPERANAME='"+opera+"' ";
+	   Statement stmt;
+
+		stmt = con.createStatement();
+		ResultSet rs = stmt.executeQuery(query);
+		while(rs.next()){			
+			int numberSeats=rs.getInt(1);
+			if (numberSeats==0)
+				place = false;
+		}
+		rs.close();
+		stmt.close();
+
+		return place;
+   }
+	*/
 	public void disconnect()throws SQLException{
 		con.close();
 	}
-
 }
