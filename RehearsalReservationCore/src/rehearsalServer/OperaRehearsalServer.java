@@ -12,7 +12,9 @@ import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -37,8 +39,8 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 	private util.observer.rmi.RemoteObservable rO;
 	private static IAuthorizeGateway gateway;
 	private IRehearsalServerDAO dao;
-	private static  Map<String, Map<String, RehearsalRMIDTO>> rehearsalCache;
-	private static Map<String,RehearsalRMIDTO> innerMap;
+	private   TreeMap<String, TreeMap<String, RehearsalRMIDTO>> rehearsalCache;
+	private  TreeMap<String,RehearsalRMIDTO> innerMap;
 	
 	public String login(String user, String pass) throws ValidationException {
 		
@@ -51,14 +53,14 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 		rehearsalCache=getRehearsalCache();
 	}
 	  
-	Map<String, Map<String, RehearsalRMIDTO>> getRehearsalCache() throws SQLException
+	TreeMap<String, TreeMap<String, RehearsalRMIDTO>> getRehearsalCache() throws SQLException
 	  
 	{
-	rehearsalCache= new TreeMap<String,Map<String, RehearsalRMIDTO>>();
+	rehearsalCache= new TreeMap<String,TreeMap<String, RehearsalRMIDTO>>();
 	innerMap=new TreeMap<String,RehearsalRMIDTO>();
 	////////////////////////////////////////////////////////
 	OperasHGatewayFactory op= OperasHGatewayFactory.GetInstance();
-	IOperaHGateway gateway = op.getOperaHGateway("scalaMilano", "corba");
+	IOperaHGateway gateway = op.getOperaHGateway("ScalaMilano", "corba");
 	//CorbaHouseGateway gate= gateway.
 	 
 	List<rehearsalServer.houseGateway.RehearsalDO> lista= new ArrayList<rehearsalServer.houseGateway.RehearsalDO>();
@@ -66,6 +68,7 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 	lista = gateway.getRehearsals();
 	
 	RehearsalServerDAO p= new RehearsalServerDAO();
+	p.connect();
 	for (int i=0;i<lista.size();i++){
 		rehearsal = lista.get(i);
 		String opera=rehearsal.getOperaName();
@@ -76,7 +79,10 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 	}
 	rehearsalCache.put("ScalaMILANO", innerMap);
 	p.disconnect();
-	System.out.println(rehearsalCache.get("ScalaMILANO").get("Nabbuco").getOperaHouse());
+	TreeMap tp= new TreeMap (rehearsalCache.get("ScalaMILANO"));
+	RehearsalRMIDTO dto= new RehearsalRMIDTO ((RehearsalRMIDTO) tp.get("Nabucco"));
+	int opera= dto.getAvailableSeats();
+	System.out.println(opera);
 	return rehearsalCache;
 	
 	}
@@ -92,8 +98,24 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 	   }
 	
 	
-	public static void main(String[] args) {
-		if (args.length != 3) {
+	public static void main(String[] args) throws RemoteException, SQLException {
+		
+		OperaRehearsalServer opRehearsal=new OperaRehearsalServer();
+		
+		/*for (int i=0;i<rehearsalCache.size();i++)
+		{	rehearsalCache.values();
+		 Iterator iterador = ((Collection<Map<String,RehearsalRMIDTO>>) rehearsalCache).iterator();  
+		   while (iterador.hasNext()) {  
+		      String elemento = (String) iterador.next();  
+		      System.out.print(elemento + " ");  
+		    }  
+		    System.out.println(); 
+		  }  */ 
+		 }  
+		
+		
+		
+	/*	if (args.length != 3) {
 			System.out.println("uso: java [policy] [codebase] servidor.Servidor[host] [port] [server]");
 			System.exit(0);
 			}
@@ -105,10 +127,10 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 		IOperaRehearsalServer objServidor = new OperaRehearsalServer();
 		Naming.rebind(name, objServidor);}
 		catch (Exception e) {
-			e.printStackTrace();}
+			e.printStackTrace();}*/
 	
 		
-	}
+	
 	
 	
 	
@@ -124,5 +146,11 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 		// TODO Auto-generated method stub
 		rO.deleteRemoteObserver((IRemoteObserver) rO);
 		
+	}
+
+	@Override
+	public List<RehearsalRMIDTO> getRehearsals() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
