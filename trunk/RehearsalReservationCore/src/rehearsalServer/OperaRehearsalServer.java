@@ -103,10 +103,12 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 				rehearsalCache.put(operaHouse, innerMap);
 			}
 			dao.disconnect();
+			rO.notifyRemoteObservers(r);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	      
 	}
 	
@@ -159,6 +161,11 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 		rO.deleteRemoteObserver((arg0));
 		
 	}
+	 public void notifyRemoteObservers(Object arg0)  throws RemoteException {
+	 
+	 rO.notifyRemoteObservers(arg0);
+	 }
+	 
 
 	@Override
 	public List<RehearsalRMIDTO> getRehearsals()throws java.rmi.RemoteException {
