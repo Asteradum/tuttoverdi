@@ -17,6 +17,6 @@ import javax.swing.JFrame;
 public class RMIClientGUI extends JFrame implements Observer {
 
 	public void update(java.util.Observable o, Object arg) {
-
+		
 	}
 }
