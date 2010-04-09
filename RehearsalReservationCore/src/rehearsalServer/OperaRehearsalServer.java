@@ -45,8 +45,6 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 	private TreeMap<String,RehearsalRMIDTO> innerMap = null;
 	
 	public String login(String user, String pass) throws ValidationException {
-		// Tiene que hacer uso del factory, pasandole los aprametros, pero de donde los saca?
-		gateway = AuthorizationGatewayFactory.GetInstance().getAuthGateway("//127.0.0.1:1099/AuthorizationService", "rmi");
   	    return   gateway.login(user, pass);	
 	}
 	
@@ -112,6 +110,8 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 	public static void main(String[] args) throws RemoteException, SQLException {
 		
 		OperaRehearsalServer opRehearsal=new OperaRehearsalServer();
+		gateway = AuthorizationGatewayFactory.GetInstance().getAuthGateway("//" + args[0] + ":" + args[1] + "/" + args[2], "rmi");
+		
 		
 		/*for (int i=0;i<rehearsalCache.size();i++)
 		{	rehearsalCache.values();
@@ -163,6 +163,7 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 	public List<RehearsalRMIDTO> getRehearsals() {
 		
 		List<RehearsalRMIDTO> list =new ArrayList<RehearsalRMIDTO>();
+		
 		for (Iterator it=rehearsalCache.values().iterator();it.hasNext();) {
 			innerMap=(TreeMap<String,RehearsalRMIDTO>)it.next();
 			for (Iterator it2=innerMap.values().iterator();it2.hasNext();) {
@@ -170,9 +171,7 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 			}
 			
 		}
-		
-		return list;
-		
+		return list;	
 	}
 
 }
