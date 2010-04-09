@@ -6,12 +6,20 @@
     <property name="build.dir" location="bin"/>
 	<property name="classpath" location="bin;lib/AuthorizationRMIClient.jar;lib/sqlitejdbc-v056.jar;lib/util_iso2.jar"/>
 	<property name="idl.file" location="idl/corbaServer.idl"/>
+	<property name="policy.file" location="java.policy"/>
 	<property name="nameservice.IP" value="127.0.0.1"/>
 	<property name="nameservice.port" value="900"/>
+	<property name="rmiregistry.port" value="1099"/>
+	<property name="AuthorizationServiceRMI.IP" value="127.0.0.1"/>
+	<property name="AuthorizationServiceRMI.port" value="1099"/>
+	<property name="AuthorizationServiceRMI.name" value="AuthorizationService"/>
+	<property name="ScalaMilanoServer.IP" value="127.0.0.1"/>
+	<property name="ScalaMilanoServer.port" value="900"/>
 	<property name="ScalaMilanoServer.name" value="ScalaMilano"/>
+	
 
 	<target name="help">
-		<echo>Usage: ant [idlj | build | tnameserv | ScalaMilanoServer | client]</echo>
+		<echo>Usage: ant [idlj | build | tnameserv | ScalaMilanoServer | client | rmiregistry | RehearsalReservationServer | RehearsalTester]</echo>
 	</target>
 
 	<target name="idlj" description="Builds IDL file">
@@ -39,8 +47,8 @@
     
 	<target name="ScalaMilanoServer" description="Executes ScalaMilanoServer program">
 		<java classname="corbaServer.CorbaOperaHouse" classpath="${classpath}" fork="true">			
-        	<arg value="${nameservice.IP}"/> 
-	 		<arg value="${nameservice.port}"/>
+        	<arg value="${ScalaMilanoServer.IP}"/> 
+	 		<arg value="${ScalaMilanoServer.port}"/>
 	 		<arg value="${ScalaMilanoServer.name}"/>
         </java>
     </target>
@@ -52,5 +60,27 @@
 	 		<arg value="${server.name}"/>
         </java>
     </target>
+	
+	<target name="rmiregistry" description="Runs RMI Name Service">
+		<echo message="RMI Name Service running at port (${rmiregistry.port})..."/>
+		<exec executable="${env.JAVA_HOME}\bin\rmiregistry.exe">
+			<arg value="${rmiregistry.port}" />
+		</exec>
+	</target>
+	
+	<target name="RehearsalReservationServer" description="Executes RehearsalReservationServer program">
+		<java classname="rehearsalServer.OperaRehearsalServer" classpath="${classpath}" fork="true">		
+			<jvmarg value="-Djava.security.policy=${policy.file}"/>
+        	<arg value="${AuthorizationServiceRMI.IP}"/> 
+	 		<arg value="${AuthorizationServiceRMI.port}"/>
+	 		<arg value="${AuthorizationServiceRMI.name}"/>
+        </java>
+    </target>
+	
+	<target name="RehearsalTester" description="Runs the RehearsalTester">
+		<java classname="rehearsalServer.RehearsalServerTester" classpath="${classpath}" fork="true">
+			<jvmarg value="-Djava.security.policy=${policy.file}"/>
+		</java>
+	</target>
 	
 </project>
