@@ -16,6 +16,7 @@
 	<property name="ScalaMilanoServer.IP" value="127.0.0.1"/>
 	<property name="ScalaMilanoServer.port" value="900"/>
 	<property name="ScalaMilanoServer.name" value="ScalaMilano"/>
+	<property name="codebase.dir" location="bin"/>
 	
 
 	<target name="help">
@@ -70,12 +71,16 @@
 	
 	<target name="RehearsalReservationServer" description="Executes RehearsalReservationServer program">
 		<java classname="rehearsalServer.OperaRehearsalServer" classpath="${classpath}" fork="true">		
+			<jvmarg value="-Djava.rmi.server.codebase=file:${codebase.dir}/ file:lib/util_iso2.jar"/>
 			<jvmarg value="-Djava.security.policy=${policy.file}"/>
         	<arg value="${AuthorizationServiceRMI.IP}"/> 
 	 		<arg value="${AuthorizationServiceRMI.port}"/>
 	 		<arg value="${AuthorizationServiceRMI.name}"/>
         </java>
     </target>
+	
+	
+	
 	
 	<target name="RehearsalTester" description="Runs the RehearsalTester">
 		<java classname="rehearsalServer.RehearsalServerTester" classpath="${classpath}" fork="true">
