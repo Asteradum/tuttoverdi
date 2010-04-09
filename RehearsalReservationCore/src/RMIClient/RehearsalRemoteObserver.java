@@ -11,6 +11,9 @@ import util.observer.rmi.RemoteObserver;
 import java.rmi.RemoteException;
 
 public class RehearsalRemoteObserver extends RemoteObserver {
+	
+	
+	
 	private static final long serialVersionUID = 1L;
 
 	/**
