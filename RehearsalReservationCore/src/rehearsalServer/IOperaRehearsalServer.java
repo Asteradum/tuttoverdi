@@ -10,8 +10,10 @@ import rehearsalServer.loginGateway.ValidationException;
  * 
  * TO BE COMPLETED BY THE STUDENTS
  */
-public interface IOperaRehearsalServer extends util.observer.rmi.IRemoteObservable {
+public interface IOperaRehearsalServer extends util.observer.rmi.IRemoteObservable,java.rmi.Remote {
+	
+	
 	public String login(String user, String pass) throws ValidationException ;
-	public List<RehearsalRMIDTO> getRehearsals();
-	public void reserveSeat (String studName, String operaHouse, String operaName);
+	public List<RehearsalRMIDTO> getRehearsals()throws java.rmi.RemoteException;
+	public void reserveSeat (String studName, String operaHouse, String operaName)throws java.rmi.RemoteException;
 }
