@@ -4,6 +4,7 @@ import RMIClient.gui.RMIClientGUI;
 
 import rehearsalServer.IOperaRehearsalServer;
 import rehearsalServer.RehearsalRMIDTO;
+import rehearsalServer.loginGateway.ValidationException;
 
 import util.observer.local.LocalObservable;
 import java.util.Observer;
@@ -32,26 +33,31 @@ public class RehearsalController {
 		observable = new LocalObservable();
 		
 		server = new RMIServiceLocator().getService("//" + args[0] + ":" + args[1] + "/" + args[2] );
+		observer = new RehearsalRemoteObserver(this, server);
 
 	}
 
 	// --------------- System Events - Remote Method Invocation --------
 	// TO BE COMPLETELY PROGRAMMED BY THE STUDENTS - 1st Assignment
 
-	public String login(String user, String pass) {
-
-		// add your code here
+	public String login(String user, String pass) throws ValidationException {
+		
+		stuName = server.login(user, pass);
+		
 		return stuName;
 	}
 
-	public List<RehearsalRMIDTO> getRehearsals() {
+	public List<RehearsalRMIDTO> getRehearsals() throws RemoteException {
 		List<RehearsalRMIDTO> subjects = null;
-		// add your code here
+		
+		subjects = server.getRehearsals();
+		
 		return subjects;
 	}
 
-	public void reserveSeat(String operaHouse, String operaName) {
-		// add your code here
+	public void reserveSeat(String operaHouse, String operaName) throws RemoteException {
+		
+		server.reserveSeat(stuName, operaHouse, operaName);
 	}
 
 	// -------- Remote Observer Notification ---------------
