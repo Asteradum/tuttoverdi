@@ -35,6 +35,10 @@ import util.observer.rmi.RemoteObservable;
 public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaRehearsalServer{
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
 	 * CACHE OF RehearsalRMIDTO objects, organized by Opera House Name To be
 	 * loaded at the initialization process
 	 */
@@ -44,7 +48,7 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 	private TreeMap<String, TreeMap<String, RehearsalRMIDTO>> rehearsalCache = null;
 	private TreeMap<String,RehearsalRMIDTO> innerMap = null;
 	
-	public String login(String user, String pass) throws ValidationException {
+	public String login(String user, String pass) throws ValidationException,RemoteException {
   	    return   gateway.login(user, pass);	
 	}
 	
@@ -82,7 +86,7 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 		return rehearsalCache;
 	}
 	
-	public void reserveSeat (String studName, String operaHouse, String operaName){
+	public void reserveSeat (String studName, String operaHouse, String operaName)throws java.rmi.RemoteException{
 	   boolean place=true;
 	   RehearsalRMIDTO r= null;
 	   
@@ -109,8 +113,8 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 	
 	public static void main(String[] args) throws RemoteException, SQLException {
 		
-		//OperaRehearsalServer opRehearsal=new OperaRehearsalServer();
-		//gateway = AuthorizationGatewayFactory.GetInstance().getAuthGateway("//" + args[0] + ":" + args[1] + "/" + args[2], "rmi");
+		OperaRehearsalServer opRehearsal=new OperaRehearsalServer();
+		gateway = AuthorizationGatewayFactory.GetInstance().getAuthGateway("//" + args[0] + ":" + args[1] + "/" + args[2], "rmi");
 		
 		/*for (int i=0;i<rehearsalCache.size();i++)
 		{	rehearsalCache.values();
@@ -125,15 +129,17 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new RMISecurityManager());
 			}
-		String name ="//" + args[0] + ":" + args[1] + "/" + args[2]; 
+		
+		String name ="//127.0.0.1:1099/RehearsalReservationServer";
 		try {
 		IOperaRehearsalServer objServidor = new OperaRehearsalServer();
-		Naming.rebind(name, objServidor);}
+		Naming.rebind(name, objServidor);
+		}
 		catch (Exception e) {
 			System.err.println("exception: " + e.getMessage());
 			e.printStackTrace();
 		}
-		System.out.println ("OperaRehearsalServer prepared and waiting requests...");
+		System.out.println ("RehearsalReservationServer prepared and waiting requests...");
 	}
 	
 		
@@ -148,15 +154,14 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 	}
 
 	@Override
-	public void deleteRemoteObserver(IRemoteObserver arg0)
-			throws RemoteException {
+	public void deleteRemoteObserver(IRemoteObserver arg0)throws RemoteException {
 		// TODO Auto-generated method stub
 		rO.deleteRemoteObserver((arg0));
 		
 	}
 
 	@Override
-	public List<RehearsalRMIDTO> getRehearsals() {
+	public List<RehearsalRMIDTO> getRehearsals()throws java.rmi.RemoteException {
 		
 		List<RehearsalRMIDTO> list =new ArrayList<RehearsalRMIDTO>();
 		for (Iterator it=rehearsalCache.values().iterator();it.hasNext();) {
