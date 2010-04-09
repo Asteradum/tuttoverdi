@@ -1,5 +1,4 @@
-/**
- * RMI SERVER  - THE REHEARSAL SERVER IN THE ARCHITECTURE
+/* RMI SERVER  - THE REHEARSAL SERVER IN THE ARCHITECTURE
  * CONNECTION TO: RMI AUTHORIZATION SERVER AND AUTHORIZATION WEB SERVICE
  * CONNECTION TO: CORBA OPERA HOUSE COMPONENT
  * CONNECTION TO: EUSKALDUNA BIO WEB SERVICE
@@ -10,6 +9,7 @@ package rehearsalServer;
 import java.rmi.Naming;
 import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,7 +32,7 @@ import rehearsalServer.loginGateway.ValidationException;
 import util.observer.rmi.IRemoteObserver;
 import util.observer.rmi.RemoteObservable;
 
-public class OperaRehearsalServer implements IOperaRehearsalServer{
+public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaRehearsalServer{
 
 	/**
 	 * CACHE OF RehearsalRMIDTO objects, organized by Opera House Name To be
@@ -109,9 +109,8 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 	
 	public static void main(String[] args) throws RemoteException, SQLException {
 		
-		OperaRehearsalServer opRehearsal=new OperaRehearsalServer();
-		gateway = AuthorizationGatewayFactory.GetInstance().getAuthGateway("//" + args[0] + ":" + args[1] + "/" + args[2], "rmi");
-		
+		//OperaRehearsalServer opRehearsal=new OperaRehearsalServer();
+		//gateway = AuthorizationGatewayFactory.GetInstance().getAuthGateway("//" + args[0] + ":" + args[1] + "/" + args[2], "rmi");
 		
 		/*for (int i=0;i<rehearsalCache.size();i++)
 		{	rehearsalCache.values();
@@ -122,23 +121,20 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 		    }  
 		    System.out.println(); 
 		  }  */ 
-		 }  
 		
-		
-		
-	/*	if (args.length != 3) {
-			System.out.println("uso: java [policy] [codebase] servidor.Servidor[host] [port] [server]");
-			System.exit(0);
-			}
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new RMISecurityManager());
 			}
-		String name = "//127.0.0.1 :"  + "900" + "/" + null;
+		String name ="//" + args[0] + ":" + args[1] + "/" + args[2]; 
 		try {
 		IOperaRehearsalServer objServidor = new OperaRehearsalServer();
 		Naming.rebind(name, objServidor);}
 		catch (Exception e) {
-			e.printStackTrace();}*/
+			System.err.println("exception: " + e.getMessage());
+			e.printStackTrace();
+		}
+		System.out.println ("OperaRehearsalServer prepared and waiting requests...");
+	}
 	
 		
 	
@@ -148,14 +144,14 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 	@Override
 	public void addRemoteObserver(IRemoteObserver arg0) throws RemoteException {
 		// TODO Auto-generated method stub
-		rO.addRemoteObserver((IRemoteObserver) rO);
+		rO.addRemoteObserver(arg0);
 	}
 
 	@Override
 	public void deleteRemoteObserver(IRemoteObserver arg0)
 			throws RemoteException {
 		// TODO Auto-generated method stub
-		rO.deleteRemoteObserver((IRemoteObserver) rO);
+		rO.deleteRemoteObserver((arg0));
 		
 	}
 
@@ -163,7 +159,6 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 	public List<RehearsalRMIDTO> getRehearsals() {
 		
 		List<RehearsalRMIDTO> list =new ArrayList<RehearsalRMIDTO>();
-		
 		for (Iterator it=rehearsalCache.values().iterator();it.hasNext();) {
 			innerMap=(TreeMap<String,RehearsalRMIDTO>)it.next();
 			for (Iterator it2=innerMap.values().iterator();it2.hasNext();) {
@@ -171,7 +166,9 @@ public class OperaRehearsalServer implements IOperaRehearsalServer{
 			}
 			
 		}
-		return list;	
+		
+		return list;
+		
 	}
 
 }
