@@ -37,7 +37,7 @@ public class RehearsalServerTester {
 			  System.out.println(r.getOperaName() + "     " + r.getDate() + "     " + r.getAvailableSeats());
 			}
 			
-			ors.reserveSeat("Alvaro Martin", "ScalaMilano", "Aida");
+			//ors.reserveSeat("Alvaro Martin", "ScalaMilano", "Aida");
 			
 			iter = list.iterator();
 			while (iter.hasNext()){
