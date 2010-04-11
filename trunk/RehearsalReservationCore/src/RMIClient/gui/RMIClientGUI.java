@@ -3,7 +3,6 @@ package RMIClient.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
-import java.util.EventObject;
 import java.util.List;
 import java.util.Observer;
 
@@ -131,13 +130,14 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 				{
 					TableModel TableModel = 
 						new DefaultTableModel(
-								new String[][] { { "", "", "", "" }, { "", "", "", "" }, { "", "", "", "" }, { "", "", "", "" },{ "", "", "", "" }},
+								new String[][] { { "", "Sonia", "", "" }, { "", "", "", "" }, { "", "", "", "" }, { "", "", "", "" },{ "", "", "", "" }},
 								new String[] { "Opera House", "Opera Name", "Date", "Availability" });
 					
 					Table = new JTable();
 					jScrollPane1.setViewportView(Table);
 					Table.setModel(TableModel);
 					Table.setPreferredSize(new java.awt.Dimension(396, 82));
+					
 				}
 			}
 			{

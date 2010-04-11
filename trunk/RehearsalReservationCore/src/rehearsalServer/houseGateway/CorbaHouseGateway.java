@@ -2,11 +2,9 @@ package rehearsalServer.houseGateway;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
-
 import corbaServer.corba.ICorbaServer;
 import corbaServer.corba.ICorbaServerHelper;
 import corbaServer.corba.corbaServerRehearsalDTO;

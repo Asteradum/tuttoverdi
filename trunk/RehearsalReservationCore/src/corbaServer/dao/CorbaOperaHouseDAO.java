@@ -19,7 +19,7 @@ public class CorbaOperaHouseDAO implements ICorbaOperaHouseDAO {
 		}catch(ClassNotFoundException e){
 			System.out.println("Unable to load Driver Class");
 		}
-		//Is this the correct way to allow variability?
+	
 		String url = "jdbc:sqlite:db/corba-db/"+ DBName +".db";
 		// We need to introduce the Login/Password?
 		con = DriverManager.getConnection(url,"(Login)","(Password)");
