@@ -1,5 +1,10 @@
 package RMIClient.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
+import java.util.EventObject;
+import java.util.List;
 import java.util.Observer;
 
 import javax.swing.GroupLayout;
@@ -19,6 +24,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.SwingUtilities;
 
+import rehearsalServer.RehearsalRMIDTO;
+import rehearsalServer.loginGateway.ValidationException;
+
+import RMIClient.RehearsalController;
+
 
 
 /**
@@ -33,17 +43,17 @@ import javax.swing.SwingUtilities;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
-public class RMIClientGUI  extends javax.swing.JFrame implements Observer {
+public class RMIClientGUI  extends javax.swing.JFrame implements Observer , ActionListener {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JButton jButton1;
+	
 	private JPanel jPanel1;
 	private JPasswordField passWord;
 	private JPasswordField passwordField;
 	private JTable Table;
-	private JTextField studetName;
+	private JTextField studentName;
 	private JLabel label2;
 	private JLabel titulo1;
 	private JSeparator jSeparator;
@@ -51,10 +61,19 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer {
 	private JLabel passLabel;
 	private JLabel userLabel;
 	private JTextField userName;
+	private JButton login;
 	private JButton exit;
 	private JButton reserve;
 	private JButton rehearsals;
-	public void update(java.util.Observable o, Object arg) {}
+	
+	
+	private static RehearsalController controller = null;
+	List <RehearsalRMIDTO> list = null;
+	
+	public void update(java.util.Observable o, Object arg) {
+		
+		
+	}
 	/**
 	* Auto-generated main method to display this JFrame
 	*/
@@ -66,11 +85,19 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer {
 				inst.setVisible(true);
 			}
 		});
+		
+		try {
+			controller = new RehearsalController(args);
+		} catch (RemoteException e) {
+
+			e.printStackTrace();
+		}
 	}
 	
 	public RMIClientGUI() {
 		super();
 		initGUI();
+		
 	}
 	
 	private void initGUI() {
@@ -80,12 +107,13 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer {
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			this.setFont(new java.awt.Font("Arial",1,9));
 			{
-				jButton1 = new JButton();
-				jButton1.setText("Login");
+				login = new JButton();
+				login.setText("Login");
+				login.addActionListener(this);	
 			}
 			{
 				userName = new JTextField();
-				userName.setText("  ");
+				userName.setText("");
 			}
 			{
 				userLabel = new JLabel();
@@ -131,20 +159,23 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer {
 				studentLabel.setText("Student Name");
 			}
 			{
-				studetName = new JTextField();
-				studetName.setText("   ");
+				studentName = new JTextField();
+				studentName.setText("   ");
 			}
 			{
 				rehearsals = new JButton();
 				rehearsals.setText("Get Scheduled Rehearsals");
+				rehearsals.addActionListener(this);
 			}
 			{
 				reserve = new JButton();
 				reserve.setText("Reserve Seat");
+				reserve.addActionListener(this);
 			}
 			{
 				exit = new JButton();
 				exit.setText("Exit");
+				exit.addActionListener(this);
 			}
 			thisLayout.setVerticalGroup(thisLayout.createSequentialGroup()
 				.addGap(8)
@@ -160,11 +191,11 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer {
 				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 				.addGroup(thisLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 				    .addComponent(userName, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-				    .addComponent(jButton1, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+				    .addComponent(login, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 				    .addComponent(userLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE))
 				.addGap(12)
 				.addGroup(thisLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-				    .addComponent(studetName, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+				    .addComponent(studentName, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 				    .addComponent(passLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
 				    .addComponent(studentLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
 				    .addComponent(passWord, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -210,9 +241,9 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer {
 				                        .addComponent(studentLabel, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
 				                        .addGap(12))
 				                    .addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
-				                        .addPreferredGap(studentLabel, jButton1, LayoutStyle.ComponentPlacement.INDENT)
-				                        .addComponent(jButton1, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)))
-				                .addComponent(studetName, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
+				                        .addPreferredGap(studentLabel, login, LayoutStyle.ComponentPlacement.INDENT)
+				                        .addComponent(login, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)))
+				                .addComponent(studentName, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
 				            .addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
 				                .addGap(23)
 				                .addComponent(Table, 0, 319, Short.MAX_VALUE)
@@ -237,5 +268,45 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer {
 	public JPasswordField getPasswordField() {
 		return passwordField;
 	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+			
+		if (e.getSource() instanceof JButton)
+		{
+			JButton buttonPressed=(JButton)e.getSource();
+			
+			if (buttonPressed==exit)
+				try {
+					controller.exit();
+				} catch (RemoteException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+			else if (buttonPressed==login){
+				String user = userName.getText();	
+				String pass = new String(passWord.getPassword());
+				try {
+					studentName.setText(controller.login(user, pass));
+				} catch (ValidationException e1) {
+					System.out.println(e1.getMessage());
+					e1.printStackTrace();
+				}
+			}
+			else if (buttonPressed==rehearsals){
+				
+				try {					
+					list = controller.getRehearsals();
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
+			}
+			else if (buttonPressed==reserve){
+				//controller.reserveSeat(null, null);
+			}
+		}
+		
+	}
+	
 
 }
