@@ -58,7 +58,7 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 		rehearsalCache=getRehearsalCache();
 	}
 	  
-	TreeMap<String, TreeMap<String, RehearsalRMIDTO>> getRehearsalCache() throws SQLException  
+	private TreeMap<String, TreeMap<String, RehearsalRMIDTO>> getRehearsalCache() throws SQLException  
 	{
 		rehearsalCache= new TreeMap<String,TreeMap<String, RehearsalRMIDTO>>();
 		innerMap=new TreeMap<String,RehearsalRMIDTO>();
@@ -117,22 +117,12 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 		
 		OperaRehearsalServer opRehearsal=new OperaRehearsalServer();
 		gateway = AuthorizationGatewayFactory.GetInstance().getAuthGateway("//" + args[0] + ":" + args[1] + "/" + args[2], "rmi");
-		
-		/*for (int i=0;i<rehearsalCache.size();i++)
-		{	rehearsalCache.values();
-		 Iterator iterador = ((Collection<Map<String,RehearsalRMIDTO>>) rehearsalCache).iterator();  
-		   while (iterador.hasNext()) {  
-		      String elemento = (String) iterador.next();  
-		      System.out.print(elemento + " ");  
-		    }  
-		    System.out.println(); 
-		  }  */ 
-		
+
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new RMISecurityManager());
 			}
 		
-		String name ="//127.0.0.1:1099/RehearsalReservationServer";
+		String name ="//" + args[3] + ":" + args[4] + "/" + args[5];
 		try {
 		IOperaRehearsalServer objServidor = new OperaRehearsalServer();
 		Naming.rebind(name, objServidor);
