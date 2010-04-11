@@ -122,8 +122,9 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 			{
 				TableModel TableModel = 
 					new DefaultTableModel(
-							new String[][] { { "One", "Two" }, { "Three", "Four" } },
-							new String[] { "Column 1", "Column 2" });
+							new String[][] { { "", "", "", "" }, { "", "", "", "" }, { "", "", "", "" }, { "", "", "", "" } },
+							new String[] { "Opera House", "Opera Name", "Date", "Seats Availables" });
+				
 				Table = new JTable();
 				Table.setModel(TableModel);
 			}
@@ -204,8 +205,8 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 0, Short.MAX_VALUE)
 				.addComponent(label2, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
 				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-				.addComponent(Table, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-				.addGap(0, 22, GroupLayout.PREFERRED_SIZE)
+				.addComponent(Table, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED, 1, GroupLayout.PREFERRED_SIZE)
 				.addGroup(thisLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 				    .addComponent(exit, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 				    .addComponent(reserve, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
