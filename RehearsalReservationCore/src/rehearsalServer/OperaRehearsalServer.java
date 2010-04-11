@@ -47,13 +47,14 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
   	    return   gateway.login(user, pass);	
 	}
 	
-	public  OperaRehearsalServer(String[] args) throws RemoteException, SQLException{
+	public  OperaRehearsalServer(String[] args) throws RemoteException{
 		super();
 		rO=new RemoteObservable();
 		rehearsalCache=getRehearsalCache(args);
+
 	}
 	  
-	private TreeMap<String, TreeMap<String, RehearsalRMIDTO>> getRehearsalCache(String[] args) throws SQLException  
+	private TreeMap<String, TreeMap<String, RehearsalRMIDTO>> getRehearsalCache(String[] args)  
 	{
 		rehearsalCache= new TreeMap<String,TreeMap<String, RehearsalRMIDTO>>();
 		innerMap=new TreeMap<String,RehearsalRMIDTO>();
@@ -66,47 +67,73 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 		rehearsalServer.houseGateway.RehearsalDO rehearsal = null;
 		lista = gateway.getRehearsals();
 		
-		RehearsalServerDAO p= new RehearsalServerDAO();
-		p.connect();
-		for (int i=0;i<lista.size();i++){
-			rehearsal = lista.get(i);
-			String opera=rehearsal.getOperaName();
-			int sitiosOcup=p.getReservationsCount(args[8],opera);
-			int sitiosTotal=rehearsal.getAvailableSeats();
-			RehearsalRMIDTO DTO= new RehearsalRMIDTO(args[8], opera, rehearsal.getDate(), sitiosTotal-sitiosOcup);
-			innerMap.put(opera, DTO);
+		RehearsalServerDAO dao= new RehearsalServerDAO();
+		try {
+			dao.connect();
+		} catch (SQLException e) {
+			System.out.println("Unable to connect to the Database");
 		}
-		rehearsalCache.put("ScalaMilano", innerMap);
-		p.disconnect();
+		
+		try {
+			for (int i=0;i<lista.size();i++){
+				rehearsal = lista.get(i);
+				String opera=rehearsal.getOperaName();
+				int sitiosOcup;
+				
+					sitiosOcup = dao.getReservationsCount(args[8],opera);
+				
+				int sitiosTotal=rehearsal.getAvailableSeats();
+				RehearsalRMIDTO DTO= new RehearsalRMIDTO(args[8], opera, rehearsal.getDate(), sitiosTotal-sitiosOcup);
+				innerMap.put(opera, DTO);
+			}
+			rehearsalCache.put("ScalaMilano", innerMap);
+		} catch (SQLException e) {
+			System.out.println("Unable to get the data from Database");
+		}
+		
+		try {
+			dao.disconnect();
+		} catch (SQLException e) {
+			System.out.println("Unable to disconnect from the Database");
+		}
 		return rehearsalCache;
 	}
 	
 	public void reserveSeat (String studName, String operaHouse, String operaName)throws java.rmi.RemoteException{
 	   RehearsalRMIDTO r= null;
 	   
-	   try {
-			dao.connect();
+			try {
+				dao.connect();
+			} catch (SQLException e1) {
+				System.out.println("Unable to connect to the Database");
+			}
 			innerMap=rehearsalCache.get(operaHouse);
 			r = innerMap.get(operaName);
-			if (r.getAvailableSeats()>0)
-			{
-				dao.reserveSeat(studName, operaHouse, operaName);
-				
-				r.decAvailableSeats(1);				
-				innerMap.put(operaName, r);
-				rehearsalCache.put(operaHouse, innerMap);
+			try {
+				if (r.getAvailableSeats()>0){
+					
+					dao.reserveSeat(studName, operaHouse, operaName);
+			
+					r.decAvailableSeats(1);				
+					innerMap.put(operaName, r);
+					rehearsalCache.put(operaHouse, innerMap);
+				}
+			} catch (SQLException e) {
+				System.out.println("Unable to reserve a seat");
 			}
-			dao.disconnect();
+			
+			try {
+				dao.disconnect();
+			} catch (SQLException e) {
+				System.out.println("Unable to disconnect from the Database");
+			}
 			rO.notifyRemoteObservers(r);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+
 	      
 	}
 	
 	
-	public static void main(String[] args) throws RemoteException, SQLException {
+	public static void main(String[] args) throws RemoteException{
 		
 		OperaRehearsalServer opRehearsal=new OperaRehearsalServer(args);
 		gateway = AuthorizationGatewayFactory.GetInstance().getAuthGateway("//" + args[0] + ":" + args[1] + "/" + args[2], "rmi");
@@ -117,8 +144,7 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 		
 		String name ="//" + args[3] + ":" + args[4] + "/" + args[5];
 		try {
-
-		Naming.rebind(name, (IOperaRehearsalServer)opRehearsal);
+			Naming.rebind(name, (IOperaRehearsalServer)opRehearsal);
 		}
 		catch (Exception e) {
 			System.err.println("exception: " + e.getMessage());
