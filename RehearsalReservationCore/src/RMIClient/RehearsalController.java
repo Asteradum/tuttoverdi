@@ -18,6 +18,7 @@ public class RehearsalController {
 	private IOperaRehearsalServer server;
 	private LocalObservable observable;
 	private RehearsalRemoteObserver observer;
+	private RMIClientGUI form = null;
 
 	// CLIENT SESSION STATE - state management field.
 	private String stuName;
@@ -30,9 +31,11 @@ public class RehearsalController {
 	public RehearsalController(String[] args) throws RemoteException {
 
 		observable = new LocalObservable();
+		form = new RMIClientGUI(this);
 		
 		server = new RMIServiceLocator().getService("//" + args[0] + ":" + args[1] + "/" + args[2] );
 		observer = new RehearsalRemoteObserver(this, server);
+		
 
 	}
 
@@ -69,7 +72,7 @@ public class RehearsalController {
 	public void updateRehearsal(RehearsalRMIDTO reh) {
 		// propagate the changed rehearsal so that the GUI can update the
 		// rehearsal details	
-		
+		observable.notifyObservers(reh);
 	}
 
 	// ------------------ End of Remote Observer Notification --------
