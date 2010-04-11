@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,12 +54,15 @@ public class RehearsalServerDAO implements IRehearsalServerDAO{
 	
 	public void reserveSeat(String studName, String operaHouse, String operaName) throws SQLException {	
 		
-		String sentencia = "INSERT INTO ReservationsT VALUES('"+ studName+ "','"+operaHouse+"','"+operaName+"'," + new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + ")";
+		String sentencia;
+
+		sentencia = "INSERT INTO ReservationsT VALUES('"+ studName+ "','"+operaHouse+"','"+operaName+"','" +  new SimpleDateFormat("dd/MM/yyyy").format(new Date()) + "')";
 		Statement stmt;
-			stmt = con.createStatement();
-			stmt.executeUpdate(sentencia);
-			stmt.close();	
+		stmt = con.createStatement();
+		stmt.executeUpdate(sentencia);
+		stmt.close();		
 	}
+		
 	
 
 	public void disconnect()throws SQLException{
