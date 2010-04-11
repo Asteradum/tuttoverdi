@@ -33,6 +33,7 @@ public class RehearsalController {
 		observable = new LocalObservable();
 		form = new RMIClientGUI(this);
 		
+		
 		server = new RMIServiceLocator().getService("//" + args[0] + ":" + args[1] + "/" + args[2] );
 		observer = new RehearsalRemoteObserver(this, server);
 		
@@ -69,10 +70,10 @@ public class RehearsalController {
 	}
 
 	// -------- Remote Observer Notification ---------------
-	public void updateRehearsal(RehearsalRMIDTO reh) {
-		// propagate the changed rehearsal so that the GUI can update the
-		// rehearsal details	
+	public void updateRehearsal(RehearsalRMIDTO reh) {	
+		observable.setChanged();
 		observable.notifyObservers(reh);
+
 	}
 
 	// ------------------ End of Remote Observer Notification --------
@@ -101,7 +102,6 @@ public class RehearsalController {
 	 * @throws RemoteException
 	 */
 	public static void main(String[] args) throws RemoteException {
-		// TODO code application logic here
 		new RehearsalController(args);
 	}
 }
