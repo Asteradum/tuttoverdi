@@ -43,6 +43,7 @@ public class RehearsalController {
 		
 		try {
 			stuName = server.login(user, pass);
+			server.addRemoteObserver(observer);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
