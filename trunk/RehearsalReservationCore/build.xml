@@ -23,7 +23,7 @@
 	
 
 	<target name="help">
-		<echo>Usage: ant [idlj | build | tnameserv | ScalaMilanoServer | RMIClient | rmiregistry | RehearsalReservationServer | RehearsalTester]</echo>
+		<echo>Usage: ant [idlj | build | tnameserv | ScalaMilanoServer | RMIClient | rmiregistry | RehearsalReservationServer]</echo>
 	</target>
 
 	<target name="idlj" description="Builds IDL file">
@@ -58,7 +58,7 @@
     </target>
 
 	<target name="RMIClient" description="Executes the RMIClient program">
-		<java classname="RMIClient.gui.RMIClientGUI" classpath="${classpath}" fork="true">			
+		<java classname="RMIClient.RehearsalController" classpath="${classpath}" fork="true">			
 		<jvmarg value="-Djava.security.policy=${policy.file}"/>
         	<arg value="${RehearsalReservationServer.IP}"/> 
 	 		<arg value="${RehearsalReservationServer.port}"/>
@@ -82,17 +82,8 @@
 	 		<arg value="${AuthorizationServiceRMI.name}"/>
 			<arg value="${RehearsalReservationServer.IP}"/> 
 	 		<arg value="${RehearsalReservationServer.port}"/>
-	 		<arg value="${RehearsalReservationServer.name}"/>
+	 		<arg value="${RehearsalReservationServer.name}"/>	
         </java>
     </target>
-	
-	
-	
-	
-	<target name="RehearsalTester" description="Runs the RehearsalTester">
-		<java classname="rehearsalServer.RehearsalServerTester" classpath="${classpath}" fork="true">
-			<jvmarg value="-Djava.security.policy=${policy.file}"/>
-		</java>
-	</target>
 	
 </project>
