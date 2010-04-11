@@ -3,6 +3,8 @@ package RMIClient.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
+import java.util.EventObject;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Observer;
 
@@ -52,6 +54,7 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 	private JPanel jPanel1;
 	private JPasswordField passWord;
 	private JPasswordField passwordField;
+	private DefaultTableModel model; 
 	private JTable Table;
 	private JTextField studentName;
 	private JLabel label2;
@@ -71,33 +74,51 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 	private static RehearsalController controller = null;
 	List <RehearsalRMIDTO> list = null;
 	
+	
 	public void update(java.util.Observable o, Object arg) {
 		
-		
+		 RehearsalRMIDTO r = (RehearsalRMIDTO)arg;
+		 //Mejorar este metodo
+		 try {
+			list = controller.getRehearsals();
+			list.set(Table.getSelectedRow(), r);
+			Iterator iter = list.iterator();
+			model.setRowCount(0);
+			
+			while (iter.hasNext()){
+			  r = (RehearsalRMIDTO) iter.next();
+			  
+			  Object [] row = new Object[4];
+			  row[0] = r.getOperaHouse();
+			  row[1] = r.getOperaName();
+			  row[2] = r.getDate();
+			  row[3] = r.getAvailableSeats();
+			  
+			  model.addRow ( row );
+
+			}		
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		 
+		 
 	}
 	/**
 	* Auto-generated main method to display this JFrame
 	*/
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				RMIClientGUI inst = new RMIClientGUI();
-				inst.setLocationRelativeTo(null);
-				inst.setVisible(true);
-			}
-		});
-		
-		try {
-			controller = new RehearsalController(args);
-		} catch (RemoteException e) {
 
-			e.printStackTrace();
-		}
-	}
 	
-	public RMIClientGUI() {
+	public RMIClientGUI(RehearsalController clientController) {
 		super();
 		initGUI();
+		controller = clientController;
+		controller.addLocalObserver(this);
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+
+			}
+		});
 		
 	}
 	
@@ -128,16 +149,15 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 			{
 				jScrollPane1 = new JScrollPane();
 				{
-					TableModel TableModel = 
+					model = 
 						new DefaultTableModel(
-								new String[][] { { "", "Sonia", "", "" }, { "", "", "", "" }, { "", "", "", "" }, { "", "", "", "" },{ "", "", "", "" }},
+								new String[][] { },
 								new String[] { "Opera House", "Opera Name", "Date", "Availability" });
 					
 					Table = new JTable();
 					jScrollPane1.setViewportView(Table);
-					Table.setModel(TableModel);
+					Table.setModel(model);
 					Table.setPreferredSize(new java.awt.Dimension(396, 82));
-					
 				}
 			}
 			{
@@ -263,6 +283,8 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 				        .addGap(0, 50, Short.MAX_VALUE)))
 				.addGap(7));
 			pack();
+			this.setLocationRelativeTo(null);
+			this.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -281,6 +303,7 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 			
 			if (buttonPressed==exit)
 				try {
+					controller.deleteLocalObserver(this);
 					controller.exit();
 				} catch (RemoteException e2) {
 					// TODO Auto-generated catch block
@@ -298,14 +321,41 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 			}
 			else if (buttonPressed==rehearsals){
 				
-				try {					
-					list = controller.getRehearsals();
+				try {
+					list = controller.getRehearsals();					
+					
+					RehearsalRMIDTO r= null;
+					Iterator iter = list.iterator();
+					model.setRowCount(0);
+					
+					while (iter.hasNext()){
+					  r = (RehearsalRMIDTO) iter.next();
+					  
+					  Object [] row = new Object[4];
+					  row[0] = r.getOperaHouse();
+					  row[1] = r.getOperaName();
+					  row[2] = r.getDate();
+					  row[3] = r.getAvailableSeats();
+					  
+					  model.addRow ( row );
+
+					}
+					
+					
 				} catch (RemoteException e1) {
 					e1.printStackTrace();
 				}
 			}
 			else if (buttonPressed==reserve){
-				//controller.reserveSeat(null, null);
+				
+				int rowNumber = Table.getSelectedRow() ;
+				
+				try {
+					controller.reserveSeat((String)model.getValueAt(rowNumber, 0), (String)model.getValueAt(rowNumber, 1));
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		}
 		
