@@ -38,7 +38,7 @@ public class RehearsalServerDAO implements IRehearsalServerDAO{
 	}
 	
 	public List<String> getOperaHouse() throws SQLException{
-		List<String> lista=new ArrayList();
+		List<String> lista=new ArrayList<String>();
 		String query = "select OPERAHOUSE  from ReservationsT";
 		Statement stmt = con.createStatement();
 		stmt.executeQuery(query);
