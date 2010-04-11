@@ -47,19 +47,19 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
   	    return   gateway.login(user, pass);	
 	}
 	
-	public  OperaRehearsalServer() throws RemoteException, SQLException{
+	public  OperaRehearsalServer(String[] args) throws RemoteException, SQLException{
 		super();
 		rO=new RemoteObservable();
-		rehearsalCache=getRehearsalCache();
+		rehearsalCache=getRehearsalCache(args);
 	}
 	  
-	private TreeMap<String, TreeMap<String, RehearsalRMIDTO>> getRehearsalCache() throws SQLException  
+	private TreeMap<String, TreeMap<String, RehearsalRMIDTO>> getRehearsalCache(String[] args) throws SQLException  
 	{
 		rehearsalCache= new TreeMap<String,TreeMap<String, RehearsalRMIDTO>>();
 		innerMap=new TreeMap<String,RehearsalRMIDTO>();
 		
 		OperasHGatewayFactory op= OperasHGatewayFactory.GetInstance();
-		IOperaHGateway gateway = op.getOperaHGateway("ScalaMilano", "corba");
+		IOperaHGateway gateway = op.getOperaHGateway(args[6] + ":" + args[7] + ":" + args[8], "corba");
 		
 		 
 		List<rehearsalServer.houseGateway.RehearsalDO> lista= new ArrayList<rehearsalServer.houseGateway.RehearsalDO>();
@@ -71,9 +71,9 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 		for (int i=0;i<lista.size();i++){
 			rehearsal = lista.get(i);
 			String opera=rehearsal.getOperaName();
-			int sitiosOcup=p.getReservationsCount("ScalaMilano",opera);
+			int sitiosOcup=p.getReservationsCount(args[8],opera);
 			int sitiosTotal=rehearsal.getAvailableSeats();
-			RehearsalRMIDTO DTO= new RehearsalRMIDTO("ScalaMilano", opera, rehearsal.getDate(), sitiosTotal-sitiosOcup);
+			RehearsalRMIDTO DTO= new RehearsalRMIDTO(args[8], opera, rehearsal.getDate(), sitiosTotal-sitiosOcup);
 			innerMap.put(opera, DTO);
 		}
 		rehearsalCache.put("ScalaMilano", innerMap);
@@ -108,7 +108,7 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 	
 	public static void main(String[] args) throws RemoteException, SQLException {
 		
-		OperaRehearsalServer opRehearsal=new OperaRehearsalServer();
+		OperaRehearsalServer opRehearsal=new OperaRehearsalServer(args);
 		gateway = AuthorizationGatewayFactory.GetInstance().getAuthGateway("//" + args[0] + ":" + args[1] + "/" + args[2], "rmi");
 
 		if (System.getSecurityManager() == null) {
@@ -117,8 +117,8 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 		
 		String name ="//" + args[3] + ":" + args[4] + "/" + args[5];
 		try {
-		IOperaRehearsalServer objServidor = new OperaRehearsalServer();
-		Naming.rebind(name, objServidor);
+
+		Naming.rebind(name, (IOperaRehearsalServer)opRehearsal);
 		}
 		catch (Exception e) {
 			System.err.println("exception: " + e.getMessage());
