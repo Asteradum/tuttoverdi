@@ -1,6 +1,5 @@
 package rehearsalServer.loginGateway;
 
-import rehearsalServer.houseGateway.OperasHGatewayFactory;
 
 /**
  * Singleton and Factory Class. Given a string "rmi" or "ws", it returns an

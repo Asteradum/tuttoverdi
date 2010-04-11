@@ -1,11 +1,7 @@
 package RMIClient;
 
-import java.net.MalformedURLException;
 import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RMISecurityManager;
-import java.rmi.RemoteException;
-
 import rehearsalServer.IOperaRehearsalServer;
 
 public class RMIServiceLocator {

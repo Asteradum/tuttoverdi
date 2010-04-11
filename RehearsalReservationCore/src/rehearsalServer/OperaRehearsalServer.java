@@ -12,19 +12,14 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 
 import rehearsalServer.dao.IRehearsalServerDAO;
 import rehearsalServer.dao.RehearsalServerDAO;
-import rehearsalServer.houseGateway.CorbaHouseGateway;
 import rehearsalServer.houseGateway.IOperaHGateway;
 import rehearsalServer.houseGateway.OperasHGatewayFactory;
-import rehearsalServer.loginGateway.AuthRMIGateway;
 import rehearsalServer.loginGateway.AuthorizationGatewayFactory;
 import rehearsalServer.loginGateway.IAuthorizeGateway;
 import rehearsalServer.loginGateway.ValidationException;
@@ -62,10 +57,10 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 	{
 		rehearsalCache= new TreeMap<String,TreeMap<String, RehearsalRMIDTO>>();
 		innerMap=new TreeMap<String,RehearsalRMIDTO>();
-		////////////////////////////////////////////////////////
+		
 		OperasHGatewayFactory op= OperasHGatewayFactory.GetInstance();
 		IOperaHGateway gateway = op.getOperaHGateway("ScalaMilano", "corba");
-		//CorbaHouseGateway gate= gateway.
+		
 		 
 		List<rehearsalServer.houseGateway.RehearsalDO> lista= new ArrayList<rehearsalServer.houseGateway.RehearsalDO>();
 		rehearsalServer.houseGateway.RehearsalDO rehearsal = null;
@@ -87,7 +82,6 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 	}
 	
 	public void reserveSeat (String studName, String operaHouse, String operaName)throws java.rmi.RemoteException{
-	   boolean place=true;
 	   RehearsalRMIDTO r= null;
 	   
 	   try {
@@ -105,7 +99,6 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 			dao.disconnect();
 			rO.notifyRemoteObservers(r);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

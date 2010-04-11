@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import corbaServer.RehearsalDO;
-
 public class RehearsalServerDAO implements IRehearsalServerDAO{
 	Connection con= null;
 	
@@ -23,7 +21,6 @@ public class RehearsalServerDAO implements IRehearsalServerDAO{
 		}
 		// This url is neccesary to change it if we want to make two server programming just one class?
 		String url = "jdbc:sqlite:db/rmi-db/reservations.db";
-		// We need to introduce de Login/Password?
 		con = DriverManager.getConnection(url,"(Login)","(Password)");
 	}
 	
@@ -38,35 +35,7 @@ public class RehearsalServerDAO implements IRehearsalServerDAO{
 		stmt.close();
 		return i;
 	}
-	/*
-	private void reduce(String operaHouse, String opera)
-	{  int num=0;
-		String query="SELECT SEATS from "+operaHouse+"where  OPERANAME='"+opera+"' ";
-		   Statement stmt;
-		try {
-			stmt = con.createStatement();
-			stmt.executeQuery(query);
-			ResultSet rs = stmt.executeQuery(query);
-			while(rs.next()){
-				String number=rs.toString();
-				num = Integer.parseInt(number);
-				num--;
-				}
-			String sentencia = " INSERT INTO "+operaHouse+"(SEAT) values ("+ num +")" ;
-			Statement stmt1;
-			stmt1 = con.createStatement();
-			
-			stmt1.executeUpdate(sentencia);
-			stmt1.close();
-			}
-			catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-	}
-	*/
-			
+	
 	public List<String> getOperaHouse() throws SQLException{
 		List<String> lista=new ArrayList();
 		String query = "select OPERAHOUSE  from ReservationsT";
@@ -91,26 +60,7 @@ public class RehearsalServerDAO implements IRehearsalServerDAO{
 			stmt.close();	
 	}
 	
-/*	
-   public boolean placeAvailable (String opera) throws SQLException{ 
 
-	   boolean place =true;
-	   String query="SELECT SEATS from ReservationsT where  OPERANAME='"+opera+"' ";
-	   Statement stmt;
-
-		stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery(query);
-		while(rs.next()){			
-			int numberSeats=rs.getInt(1);
-			if (numberSeats==0)
-				place = false;
-		}
-		rs.close();
-		stmt.close();
-
-		return place;
-   }
-	*/
 	public void disconnect()throws SQLException{
 		con.close();
 	}
