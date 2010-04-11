@@ -8,22 +8,27 @@
 	<property name="classpath" location="bin;lib/AuthorizationRMIClient.jar;lib/sqlitejdbc-v056.jar;lib/util_iso2.jar"/>
 	<property name="idl.file" location="idl/corbaServer.idl"/>
 	<property name="policy.file" location="java.policy"/>
+	
 	<property name="nameservice.IP" value="127.0.0.1"/>
 	<property name="nameservice.port" value="900"/>
+	
 	<property name="rmiregistry.port" value="1099"/>
+	
 	<property name="AuthorizationServiceRMI.IP" value="127.0.0.1"/>
 	<property name="AuthorizationServiceRMI.port" value="1099"/>
 	<property name="AuthorizationServiceRMI.name" value="AuthorizationService"/>
+	
 	<property name="ScalaMilanoServer.IP" value="127.0.0.1"/>
 	<property name="ScalaMilanoServer.port" value="900"/>
 	<property name="ScalaMilanoServer.name" value="ScalaMilano"/>
+	
 	<property name="RehearsalReservationServer.IP" value="127.0.0.1"/>
 	<property name="RehearsalReservationServer.port" value="1099"/>
 	<property name="RehearsalReservationServer.name" value="RehearsalReservationServer"/>
 	
 
 	<target name="help">
-		<echo>Usage: ant [idlj | build | tnameserv | ScalaMilanoServer | RMIClient | rmiregistry | RehearsalReservationServer]</echo>
+		<echo>Usage: ant [idlj | build | tnameserv | ScalaMilanoServer | RMIClient | rmiregistry | RehearsalReservationServer | clean]</echo>
 	</target>
 
 	<target name="idlj" description="Builds IDL file">
@@ -88,5 +93,9 @@
 	 		<arg value="${ScalaMilanoServer.name}"/>
         </java>
     </target>
+	
+	<target name="clean" description="Clean all build products." >
+		<delete dir="${build.dir}"/>
+   	</target>
 	
 </project>
