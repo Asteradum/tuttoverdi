@@ -82,7 +82,10 @@
 	 		<arg value="${AuthorizationServiceRMI.name}"/>
 			<arg value="${RehearsalReservationServer.IP}"/> 
 	 		<arg value="${RehearsalReservationServer.port}"/>
-	 		<arg value="${RehearsalReservationServer.name}"/>	
+	 		<arg value="${RehearsalReservationServer.name}"/>
+			<arg value="${ScalaMilanoServer.IP}"/> 
+	 		<arg value="${ScalaMilanoServer.port}"/>
+	 		<arg value="${ScalaMilanoServer.name}"/>
         </java>
     </target>
 	
