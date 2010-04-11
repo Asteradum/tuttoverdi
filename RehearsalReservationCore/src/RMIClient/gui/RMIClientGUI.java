@@ -71,7 +71,7 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 	private JButton rehearsals;
 	
 	
-	private static RehearsalController controller = null;
+	private RehearsalController controller = null;
 	List <RehearsalRMIDTO> list = null;
 	
 	
@@ -98,7 +98,6 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 
 			}		
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 		 
