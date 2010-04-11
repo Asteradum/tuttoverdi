@@ -77,31 +77,17 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 	
 	public void update(java.util.Observable o, Object arg) {
 		
-		 RehearsalRMIDTO r = (RehearsalRMIDTO)arg;
-		 //Mejorar este metodo
-		 try {
-			list = controller.getRehearsals();
-			list.set(Table.getSelectedRow(), r);
-			Iterator iter = list.iterator();
-			model.setRowCount(0);
-			
-			while (iter.hasNext()){
-			  r = (RehearsalRMIDTO) iter.next();
-			  
-			  Object [] row = new Object[4];
-			  row[0] = r.getOperaHouse();
-			  row[1] = r.getOperaName();
-			  row[2] = r.getDate();
-			  row[3] = r.getAvailableSeats();
-			  
-			  model.addRow ( row );
+		RehearsalRMIDTO r = (RehearsalRMIDTO)arg;
 
-			}		
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}	
-		 
-		 
+		int rowNumber = model.getRowCount();
+		boolean find=false;
+		
+		for (int i=0; ((i<rowNumber) && (!find)); i++)
+			if ((model.getValueAt(i, 0)).equals(r.getOperaHouse()) && (model.getValueAt(i, 1).equals(r.getOperaName())))
+					{
+				      find=true;
+				      model.setValueAt(r.getAvailableSeats(), i, 3);   
+					} 
 	}
 	/**
 	* Auto-generated main method to display this JFrame
@@ -350,6 +336,9 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 				int rowNumber = Table.getSelectedRow() ;
 				
 				try {
+					System.out.println(rowNumber);
+					System.out.println((String)model.getValueAt(rowNumber, 0));
+					System.out.println((String)model.getValueAt(rowNumber, 1));
 					controller.reserveSeat((String)model.getValueAt(rowNumber, 0), (String)model.getValueAt(rowNumber, 1));
 				} catch (RemoteException e1) {
 					// TODO Auto-generated catch block
