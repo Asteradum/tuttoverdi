@@ -59,6 +59,7 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 	private JTextField studentName;
 	private JLabel label2;
 	private JScrollPane jScrollPane1;
+	private JLabel statusBar1;
 	private JLabel titulo1;
 	private JSeparator jSeparator;
 	private JLabel studentLabel;
@@ -69,6 +70,7 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 	private JButton exit;
 	private JButton reserve;
 	private JButton rehearsals;
+	
 	
 	
 	private RehearsalController controller = null;
@@ -146,6 +148,11 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 				}
 			}
 			{
+				statusBar1 = new JLabel();
+				statusBar1.setText("   ");
+			}
+			
+			{
 				jSeparator = new JSeparator();
 			}
 			{
@@ -174,6 +181,7 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 			{
 				studentName = new JTextField();
 				studentName.setText("   ");
+				studentName.setEditable(false);
 			}
 			{
 				rehearsals = new JButton();
@@ -203,70 +211,84 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 				        .addGap(8)))
 				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 				.addGroup(thisLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-				    .addComponent(userName, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				    .addComponent(userName, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 				    .addComponent(login, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 				    .addComponent(userLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addGap(12)
+				.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
 				.addGroup(thisLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 				    .addComponent(studentName, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 				    .addComponent(passLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
 				    .addComponent(studentLabel, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
-				    .addComponent(passWord, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE))
+				    .addComponent(passWord, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE))
 				.addGap(24)
 				.addComponent(jSeparator, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
 				.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
 				.addComponent(label2, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
 				.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-				.addComponent(jScrollPane1, 0, 87, Short.MAX_VALUE)
-				.addGap(31)
+				.addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
+				.addGap(17)
 				.addGroup(thisLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-				    .addComponent(exit, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 				    .addComponent(reserve, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				    .addComponent(exit, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 				    .addComponent(rehearsals, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE))
-				.addContainerGap(18, 18));
-			thisLayout.setHorizontalGroup(thisLayout.createSequentialGroup()
-				.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 0, GroupLayout.PREFERRED_SIZE)
 				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-				.addGroup(thisLayout.createParallelGroup()
-				    .addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
-				        .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
-				        .addGroup(thisLayout.createParallelGroup()
-				            .addComponent(jScrollPane1, GroupLayout.Alignment.LEADING, 0, 414, Short.MAX_VALUE)
-				            .addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
-				                .addPreferredGap(jScrollPane1, titulo1, LayoutStyle.ComponentPlacement.INDENT)
-				                .addComponent(titulo1, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-				                .addGap(29)
-				                .addGroup(thisLayout.createParallelGroup()
-				                    .addComponent(passWord, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-				                    .addComponent(userName, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE))
-				                .addGap(57)
-				                .addComponent(login, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-				                .addComponent(studentName, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-				                .addGap(0, 12, Short.MAX_VALUE)))
-				        .addGap(15))
-				    .addGroup(thisLayout.createSequentialGroup()
-				        .addComponent(jSeparator, GroupLayout.PREFERRED_SIZE, 439, GroupLayout.PREFERRED_SIZE)
-				        .addGap(0, 0, Short.MAX_VALUE))
-				    .addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
-				        .addGroup(thisLayout.createParallelGroup()
-				            .addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
-				                .addComponent(label2, GroupLayout.PREFERRED_SIZE, 248, GroupLayout.PREFERRED_SIZE)
-				                .addComponent(studentLabel, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE))
-				            .addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
-				                .addGroup(thisLayout.createParallelGroup()
-				                    .addComponent(rehearsals, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-				                    .addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
-				                        .addComponent(passLabel, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-				                        .addGap(83))
-				                    .addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
-				                        .addComponent(userLabel, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-				                        .addGap(85)))
-				                .addGap(40)
-				                .addComponent(reserve, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)
-				                .addGap(29)))
-				        .addComponent(exit, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-				        .addGap(0, 50, Short.MAX_VALUE)))
-				.addGap(7));
+				//.addComponent(statusBar, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+				.addComponent(statusBar1, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 0, Short.MAX_VALUE));
+			thisLayout.setHorizontalGroup(thisLayout.createParallelGroup()
+				//.addComponent(statusBar, GroupLayout.Alignment.LEADING, 0, 488, Short.MAX_VALUE)
+				.addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
+				    .addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 0, GroupLayout.PREFERRED_SIZE)
+				    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+				    .addGroup(thisLayout.createParallelGroup()
+				        .addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
+				            .addComponent(passLabel, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+				            .addGap(0, 400, Short.MAX_VALUE))
+				        .addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
+				            .addComponent(userLabel, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+				            .addGap(0, 402, Short.MAX_VALUE))
+				        .addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
+				            .addComponent(jPanel1, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
+				            .addGroup(thisLayout.createParallelGroup()
+				                .addComponent(jScrollPane1, GroupLayout.Alignment.LEADING, 0, 455, Short.MAX_VALUE)
+				                .addGroup(thisLayout.createSequentialGroup()
+				                    .addGroup(thisLayout.createParallelGroup()
+				                        .addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
+				                            .addPreferredGap(rehearsals, titulo1, LayoutStyle.ComponentPlacement.INDENT)
+				                            .addComponent(titulo1, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+				                            .addGap(7)
+				                            .addGroup(thisLayout.createParallelGroup()
+				                                .addComponent(passWord, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)
+				                                .addComponent(userName, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)))
+				                        .addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
+				                            .addComponent(rehearsals, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+				                            .addGap(34)))
+				                    .addGap(19)
+				                    .addGroup(thisLayout.createParallelGroup()
+				                        .addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
+				                            .addGap(0, 0, Short.MAX_VALUE)
+				                            .addComponent(reserve, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)
+				                            .addGroup(thisLayout.createParallelGroup()
+				                                .addComponent(studentName, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
+				                                .addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
+				                                    .addGap(44)
+				                                    .addComponent(exit, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE))))
+				                        .addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
+				                            .addGap(8)
+				                            .addComponent(studentLabel, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+				                            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 0, Short.MAX_VALUE)
+				                            .addComponent(login, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+				                            .addGap(42)))
+				                    .addGap(38))))
+				        .addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
+				            .addComponent(jSeparator, GroupLayout.PREFERRED_SIZE, 439, GroupLayout.PREFERRED_SIZE)
+				            .addGap(0, 26, Short.MAX_VALUE))
+				        .addGroup(GroupLayout.Alignment.LEADING, thisLayout.createSequentialGroup()
+				            .addComponent(label2, GroupLayout.PREFERRED_SIZE, 248, GroupLayout.PREFERRED_SIZE)
+				            .addGap(0, 217, Short.MAX_VALUE)))
+				    .addGap(17))
+				.addComponent(statusBar1, GroupLayout.Alignment.LEADING, 0, 488, Short.MAX_VALUE));
 			pack();
 			this.setLocationRelativeTo(null);
 			this.setVisible(true);
@@ -290,6 +312,7 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 				try {
 					controller.deleteLocalObserver(this);
 					controller.exit();
+					statusBar1.setText("Bye:)");
 				} catch (RemoteException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
@@ -297,9 +320,11 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 			else if (buttonPressed==login){
 				String user = userName.getText();	
 				String pass = new String(passWord.getPassword());
+				statusBar1.setText("Welcome!");
 				try {
 					studentName.setText(controller.login(user, pass));
 				} catch (ValidationException e1) {
+					statusBar1.setText("Incorrect password");
 					System.out.println(e1.getMessage());
 					e1.printStackTrace();
 				}
@@ -308,7 +333,7 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 				
 				try {
 					list = controller.getRehearsals();					
-					
+					statusBar1.setText("List of Rehearsals");
 					RehearsalRMIDTO r= null;
 					Iterator iter = list.iterator();
 					model.setRowCount(0);
@@ -328,12 +353,14 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 					
 					
 				} catch (RemoteException e1) {
+					statusBar1.setText("An error has occurred");
 					e1.printStackTrace();
 				}
 			}
 			else if (buttonPressed==reserve){
 				
 				int rowNumber = Table.getSelectedRow() ;
+				statusBar1.setText("Reservation");
 				
 				try {
 					System.out.println(rowNumber);
@@ -341,6 +368,7 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 					System.out.println((String)model.getValueAt(rowNumber, 1));
 					controller.reserveSeat((String)model.getValueAt(rowNumber, 0), (String)model.getValueAt(rowNumber, 1));
 				} catch (RemoteException e1) {
+					statusBar1.setText("Something wrong has happened.Please try your reservation again.");
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
