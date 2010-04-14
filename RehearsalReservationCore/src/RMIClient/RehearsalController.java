@@ -71,8 +71,7 @@ public class RehearsalController {
 
 	// -------- Remote Observer Notification ---------------
 	public void updateRehearsal(RehearsalRMIDTO reh) {	
-		observable.setChanged();
-		observable.notifyObservers(reh);
+		notifyLocalObservers(reh);
 
 	}
 
