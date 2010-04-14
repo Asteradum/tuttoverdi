@@ -149,7 +149,6 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 			}
 			{
 				statusBar1 = new JLabel();
-				statusBar1.setText("   ");
 			}
 			
 			{
@@ -232,7 +231,6 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 				    .addComponent(exit, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 				    .addComponent(rehearsals, GroupLayout.Alignment.BASELINE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE))
 				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-				//.addComponent(statusBar, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
 				.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
 				.addComponent(statusBar1, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 0, Short.MAX_VALUE));
@@ -320,9 +318,10 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 			else if (buttonPressed==login){
 				String user = userName.getText();	
 				String pass = new String(passWord.getPassword());
-				statusBar1.setText("Welcome!");
+				
 				try {
 					studentName.setText(controller.login(user, pass));
+					statusBar1.setText("Welcome"+studentName.getText()+"!:)");
 				} catch (ValidationException e1) {
 					statusBar1.setText("Incorrect password");
 					System.out.println(e1.getMessage());
@@ -360,7 +359,7 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 			else if (buttonPressed==reserve){
 				
 				int rowNumber = Table.getSelectedRow() ;
-				statusBar1.setText("Reservation");
+				statusBar1.setText("Reservation done");
 				
 				try {
 					System.out.println(rowNumber);
