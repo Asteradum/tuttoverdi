@@ -321,10 +321,9 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 				
 				try {
 					studentName.setText(controller.login(user, pass));
-					statusBar1.setText("Welcome"+studentName.getText()+"!:)");
+					statusBar1.setText("Welcome "+studentName.getText()+"!:)");
 				} catch (ValidationException e1) {
-					statusBar1.setText("Incorrect password");
-					System.out.println(e1.getMessage());
+					statusBar1.setText(e1.getMessage());
 					e1.printStackTrace();
 				}
 			}
