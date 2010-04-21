@@ -1,0 +1,8 @@
+<!-- Etiqueta raiz gateway -->
+<!ELEMENT gateway (serviceName, technology, details)>
+
+<!-- Elementos hijos del gateway -->
+<!ELEMENT serviceName (#PCDATA)>
+<!ELEMENT technology (#PCDATA)>
+<!ELEMENT details(#PCDATA)>
+<!ATTLIST details tipo CDATA #REQUIRED>

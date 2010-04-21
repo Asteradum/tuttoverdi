@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE gateway SYSTEM "gateway.dtd">
+<gateway>
+		<servName> ScalaMilano</servName>
+		<technology>corba</technology>
+		<details><details>
+</gateway>
