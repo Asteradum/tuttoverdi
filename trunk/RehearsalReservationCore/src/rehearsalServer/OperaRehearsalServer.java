@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.parsers.SAXParser;
 
 import rehearsalServer.dao.IRehearsalServerDAO;
 import rehearsalServer.dao.RehearsalServerDAO;
@@ -25,8 +23,6 @@ import rehearsalServer.houseGateway.OperasHGatewayFactory;
 import rehearsalServer.loginGateway.AuthorizationGatewayFactory;
 import rehearsalServer.loginGateway.IAuthorizeGateway;
 import rehearsalServer.loginGateway.ValidationException;
-import rehearsalServer.saxParser.GatewayObject;
-import rehearsalServer.saxParser.HouseGatewaysSAXParserHandler;
 
 import util.observer.rmi.IRemoteObserver;
 import util.observer.rmi.RemoteObservable;
@@ -64,12 +60,11 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 		innerMap=new TreeMap<String,RehearsalRMIDTO>();
 		
 		OperasHGatewayFactory op= OperasHGatewayFactory.GetInstance();
+		//ScalaMilano
 		IOperaHGateway gateway = op.getOperaHGateway(args[6] + ":" + args[7] + ":" + args[8], "corba");
-		
-		 
-		List<rehearsalServer.houseGateway.RehearsalDO> lista= new ArrayList<rehearsalServer.houseGateway.RehearsalDO>();
+		List<rehearsalServer.houseGateway.RehearsalDO> list= new ArrayList<rehearsalServer.houseGateway.RehearsalDO>();
 		rehearsalServer.houseGateway.RehearsalDO rehearsal = null;
-		lista = gateway.getRehearsals();
+		list = gateway.getRehearsals();
 		
 		RehearsalServerDAO dao= new RehearsalServerDAO();
 		try {
@@ -79,8 +74,9 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 		}
 		
 		try {
-			for (int i=0;i<lista.size();i++){
-				rehearsal = lista.get(i);
+			//ScalaMilano
+			for (int i=0;i<list.size();i++){
+				rehearsal = list.get(i);
 				String opera=rehearsal.getOperaName();
 				int sitiosOcup;
 				
@@ -90,7 +86,26 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 				RehearsalRMIDTO DTO= new RehearsalRMIDTO(args[8], opera, rehearsal.getDate(), sitiosTotal-sitiosOcup);
 				innerMap.put(opera, DTO);
 			}
-			rehearsalCache.put("ScalaMilano", innerMap);
+			rehearsalCache.put(args[8], innerMap);
+			
+			//SanCarloNapoli
+			
+			gateway = op.getOperaHGateway(args[9] + ":" + args[10] + ":" + args[11], "corba");
+			list = gateway.getRehearsals();
+			rehearsal= null;
+			innerMap=new TreeMap<String,RehearsalRMIDTO>();
+			for (int i=0;i<list.size();i++){
+				rehearsal = list.get(i);
+				String opera=rehearsal.getOperaName();
+				int sitiosOcup;
+				
+					sitiosOcup = dao.getReservationsCount(args[11],opera);
+				
+				int sitiosTotal=rehearsal.getAvailableSeats();
+				RehearsalRMIDTO DTO= new RehearsalRMIDTO(args[11], opera, rehearsal.getDate(), sitiosTotal-sitiosOcup);
+				innerMap.put(opera, DTO);
+			}
+			rehearsalCache.put(args[11], innerMap);
 		} catch (SQLException e) {
 			System.out.println("Unable to get the data from Database");
 		}
@@ -100,6 +115,8 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 		} catch (SQLException e) {
 			System.out.println("Unable to disconnect from the Database");
 		}
+		
+		
 		return rehearsalCache;
 	}
 	
@@ -141,7 +158,7 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 		
 		OperaRehearsalServer opRehearsal=new OperaRehearsalServer(args);
 		gateway = AuthorizationGatewayFactory.GetInstance().getAuthGateway("//" + args[0] + ":" + args[1] + "/" + args[2], "rmi");
-		xmlMethod();
+
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new RMISecurityManager());
 			}
@@ -162,28 +179,6 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 	
 	
 	
-	private static void xmlMethod() {
-		SAXParserFactory factory = SAXParserFactory.newInstance();        
-        factory.setValidating(true);
-        
-        try {
-        	System.out.println("ANALISIS DE UN DOCUMENTO XML USANDO SAX");
-			System.out.println("-------- -- -- --------- --- ------ ---");            
-        	SAXParser saxParser = factory.newSAXParser();
-            HouseGatewaysSAXParserHandler handler = new HouseGatewaysSAXParserHandler();                        
-            saxParser.parse("Gateway", handler);
-            
-            ArrayList<GatewayObject> gateways = handler.getGateways();
-        } catch (Exception e) {
-            System.out.println("Error -> Main():" + e.getMessage());
-            e.printStackTrace();
-            
-            
-        }    
-    }    
-		
-	
-
 	@Override
 	public void addRemoteObserver(IRemoteObserver arg0) throws RemoteException {
 		// TODO Auto-generated method stub

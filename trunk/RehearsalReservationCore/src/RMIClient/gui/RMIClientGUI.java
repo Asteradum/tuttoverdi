@@ -338,7 +338,7 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 					
 					while (iter.hasNext()){
 					  r = (RehearsalRMIDTO) iter.next();
-					  
+					  										  
 					  Object [] row = new Object[4];
 					  row[0] = r.getOperaHouse();
 					  row[1] = r.getOperaName();
@@ -346,8 +346,8 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 					  row[3] = r.getAvailableSeats();
 					  
 					  model.addRow ( row );
-
-					}
+					  
+				  }
 					
 					
 				} catch (RemoteException e1) {

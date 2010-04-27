@@ -22,13 +22,17 @@
 	<property name="ScalaMilanoServer.port" value="900"/>
 	<property name="ScalaMilanoServer.name" value="ScalaMilano"/>
 	
+	<property name="SanCarloNapoliServer.IP" value="127.0.0.1"/>
+	<property name="SanCarloNapoliServer.port" value="900"/>
+	<property name="SanCarloNapoliServer.name" value="SanCarloNapoli"/>
+	
 	<property name="RehearsalReservationServer.IP" value="127.0.0.1"/>
 	<property name="RehearsalReservationServer.port" value="1099"/>
 	<property name="RehearsalReservationServer.name" value="RehearsalReservationServer"/>
 	
 
 	<target name="help">
-		<echo>Usage: ant [idlj | build | tnameserv | ScalaMilanoServer | RMIClient | rmiregistry | RehearsalReservationServer | clean]</echo>
+		<echo>Usage: ant [idlj | build | tnameserv | ScalaMilanoServer | SanCarloNapoliServer | RMIClient | rmiregistry | RehearsalReservationServer | clean]</echo>
 	</target>
 
 	<target name="idlj" description="Builds IDL file">
@@ -61,6 +65,14 @@
 	 		<arg value="${ScalaMilanoServer.name}"/>
         </java>
     </target>
+	
+	<target name="SanCarloNapoliServer" description="Executes SanCarloNapoliServer program">
+		<java classname="corbaServer.CorbaOperaHouse" classpath="${classpath}" fork="true">			
+        	<arg value="${SanCarloNapoliServer.IP}"/> 
+	 		<arg value="${SanCarloNapoliServer.port}"/>
+	 		<arg value="${SanCarloNapoliServer.name}"/>
+        </java>
+    </target>
 
 	<target name="RMIClient" description="Executes the RMIClient program">
 		<java classname="RMIClient.RehearsalController" classpath="${classpath}" fork="true">			
@@ -91,6 +103,9 @@
 			<arg value="${ScalaMilanoServer.IP}"/> 
 	 		<arg value="${ScalaMilanoServer.port}"/>
 	 		<arg value="${ScalaMilanoServer.name}"/>
+			<arg value="${SanCarloNapoliServer.IP}"/> 
+	 		<arg value="${SanCarloNapoliServer.port}"/>
+	 		<arg value="${SanCarloNapoliServer.name}"/>
         </java>
     </target>
 	
