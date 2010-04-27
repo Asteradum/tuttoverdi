@@ -1,14 +1,20 @@
 package rehearsalServer.saxParser;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 
-public class HouseGatewaysSAXHandler extends DefaultHandler {
+public class HouseGatewaysSAXParserHandler extends DefaultHandler {
 	
-	private GatewayObject gatewayObject;
+		private GatewayObject gatewayObject;
 		private String texto;
+		private List<GatewayObject> listGateways=new ArrayList();
+		
+		
 		
 		public void startDocument() throws SAXException {
 			System.out.println("# Comenzando el parseo del documento...");
@@ -26,16 +32,17 @@ public class HouseGatewaysSAXHandler extends DefaultHandler {
 
 			System.out.println(" * [Etiqueta] -> <" + qName + ">");
 
-		/*	if (qName.equals("gateway")) {
-				this.gatewayObject.(attrs.getValue("prioridad"));
-				System.out.println("    - [Atributo] -> prioridad='"+ attrs.getValue("prioridad") + "'");
-			} else if (qName.equals("fecha")) {
+			if (qName.equals("gateway")) {
+				this.listGateways.add(this.gatewayObject);
+				System.out.println("Adding wateway...");
+			/*} else if (qName.equals("fecha")) {
 				this.mensaje.setDia(attrs.getValue("dia"));
 				this.mensaje.setHora(attrs.getValue("hora"));
 				System.out.println("    - [Atributo] -> dia='"+ attrs.getValue("dia") + "'");
 				System.out.println("    - [Atributo] -> hora='"+ attrs.getValue("hora") + "'");*/
 			
 		}
+			}
 
 		public void endElement(String namespaceURI, String lName, String qName)
 				throws SAXException {
@@ -84,6 +91,11 @@ public class HouseGatewaysSAXHandler extends DefaultHandler {
 		//================
 		// Métodos propios
 		//================
+		
+		public ArrayList<GatewayObject> getGateways()
+		{
+			return (ArrayList<GatewayObject>) listGateways;
+		}
 		public GatewayObject getGateway() {
 			return this.gatewayObject;
 		}

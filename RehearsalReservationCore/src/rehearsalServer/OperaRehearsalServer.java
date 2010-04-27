@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.parsers.SAXParser;
 
 import rehearsalServer.dao.IRehearsalServerDAO;
 import rehearsalServer.dao.RehearsalServerDAO;
@@ -23,6 +25,8 @@ import rehearsalServer.houseGateway.OperasHGatewayFactory;
 import rehearsalServer.loginGateway.AuthorizationGatewayFactory;
 import rehearsalServer.loginGateway.IAuthorizeGateway;
 import rehearsalServer.loginGateway.ValidationException;
+import rehearsalServer.saxParser.GatewayObject;
+import rehearsalServer.saxParser.HouseGatewaysSAXParserHandler;
 
 import util.observer.rmi.IRemoteObserver;
 import util.observer.rmi.RemoteObservable;
@@ -137,7 +141,7 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 		
 		OperaRehearsalServer opRehearsal=new OperaRehearsalServer(args);
 		gateway = AuthorizationGatewayFactory.GetInstance().getAuthGateway("//" + args[0] + ":" + args[1] + "/" + args[2], "rmi");
-
+		xmlMethod();
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new RMISecurityManager());
 			}
@@ -158,6 +162,28 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 	
 	
 	
+	private static void xmlMethod() {
+		SAXParserFactory factory = SAXParserFactory.newInstance();        
+        factory.setValidating(true);
+        
+        try {
+        	System.out.println("ANALISIS DE UN DOCUMENTO XML USANDO SAX");
+			System.out.println("-------- -- -- --------- --- ------ ---");            
+        	SAXParser saxParser = factory.newSAXParser();
+            HouseGatewaysSAXParserHandler handler = new HouseGatewaysSAXParserHandler();                        
+            saxParser.parse("Gateway", handler);
+            
+            ArrayList<GatewayObject> gateways = handler.getGateways();
+        } catch (Exception e) {
+            System.out.println("Error -> Main():" + e.getMessage());
+            e.printStackTrace();
+            
+            
+        }    
+    }    
+		
+	
+
 	@Override
 	public void addRemoteObserver(IRemoteObserver arg0) throws RemoteException {
 		// TODO Auto-generated method stub
