@@ -33,14 +33,14 @@ public class HouseGatewaysSAXParserHandler extends DefaultHandler {
 			System.out.println(" * [Etiqueta] -> <" + qName + ">");
 
 			if (qName.equals("gateway")) {
+				this.gatewayObject=new GatewayObject();
 				this.listGateways.add(this.gatewayObject);
 				System.out.println("Adding wateway...");
-			/*} else if (qName.equals("fecha")) {
-				this.mensaje.setDia(attrs.getValue("dia"));
-				this.mensaje.setHora(attrs.getValue("hora"));
-				System.out.println("    - [Atributo] -> dia='"+ attrs.getValue("dia") + "'");
-				System.out.println("    - [Atributo] -> hora='"+ attrs.getValue("hora") + "'");*/
-			
+			} else if (qName.equals("detail")) {
+				String name=(attrs.getValue("name"));
+				System.out.println(name);
+				this.gatewayObject.setDetails(name);
+				
 		}
 			}
 
@@ -52,9 +52,7 @@ public class HouseGatewaysSAXParserHandler extends DefaultHandler {
 					this.gatewayObject.setServiceName(this.texto);
 				} else if (qName.equals("technology")) {
 					this.gatewayObject.setTechnology(this.texto);
-				} else if (qName.equals("details")) {
-					this.gatewayObject.addDetails(this.texto);
-				} 
+				}  
 			}
 
 			this.texto = "";

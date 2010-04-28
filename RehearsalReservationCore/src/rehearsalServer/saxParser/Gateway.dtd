@@ -4,5 +4,7 @@
 <!-- Elementos hijos del gateway -->
 <!ELEMENT serviceName (#PCDATA)>
 <!ELEMENT technology (#PCDATA)>
-<!ELEMENT details(#PCDATA)>
-<!ATTLIST details tipo CDATA #REQUIRED>
+
+<!ELEMENT details (detail+)>
+<!ELEMENT detail EMPTY>
+<!ATTLIST detail name CDATA #REQUIRED>

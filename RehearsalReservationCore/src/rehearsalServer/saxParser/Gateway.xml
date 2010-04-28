@@ -2,21 +2,27 @@
 
 <!DOCTYPE gateway SYSTEM "gateway.dtd">
 	<gateways>
-				<gateway>
-						<servName> ScalaMilano</servName>
+				<gateway>	
+						<serviceName>ScalaMILANO</serviceName>
 						<technology>corba</technology>
-						<details><details>
+						<details>
+							<detail name="127.0.0.1"/>
+							<detail name="900"/>
+						</details>
+				</gateway>
+				<gateway>
+						<serviceName>SanCarloNapoli</serviceName>
+						<technology>corba</technology>
+						<details>
+							<detail  name="127.0.0.1" />
+							<detail name="900"/>
+						</details>
+				</gateway>
+				<gateway>
+						<serviceName>WSAuthorization</serviceName>
+						<technology>webService</technology>
+						<details>
+						</details>
 				</gateway>
 				
-				<gateway>
-						<servName>WebService </servName>
-						<technology></technology>
-						<details><details>
-				</gateway>
-
-				<gateway>
-						<servName>JMS </servName>
-						<technology></technology>
-						<details><details>
-				</gateway>
-	</gateways>
+		</gateways>
