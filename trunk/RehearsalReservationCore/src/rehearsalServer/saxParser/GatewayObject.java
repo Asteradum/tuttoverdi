@@ -1,5 +1,6 @@
 package rehearsalServer.saxParser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // One Gateway Object per gateway in the XML file
@@ -14,7 +15,7 @@ are:
 public class GatewayObject {
 	private String serviceName;
 	private String technology;
-	private  List<String> details;
+	private  List<String> details= new ArrayList<String>();;
 	
 	
 	public GatewayObject() {
@@ -33,13 +34,14 @@ public class GatewayObject {
 	public void setTechnology(String technology) {
 		this.technology = technology;
 	}
-	
 	public List<String> getDetails() {
 		return details;
 	}
-	public void addDetails(String details) {
-		this.details.add(details);
+	public void setDetails(String detailName) {
+		this.details.add(detailName);
 	}
+	
+	
 	
 	
 
