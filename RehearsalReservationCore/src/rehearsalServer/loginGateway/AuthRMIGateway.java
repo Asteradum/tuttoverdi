@@ -29,8 +29,10 @@ public class AuthRMIGateway implements IAuthorizeGateway  {
 			studentName = iauth.login(user, pass);
 			System.out.println("The name of the student is: " + studentName);
 		} catch (InvalidUserException e) {
+			System.out.println("*** NON VALID STUDENT ***");
 			throw new ValidationException ("Invalid Username");
 		} catch (InvalidPasswordException e) {
+			System.out.println("*** INVALID PASSWORD ***");
 			throw new ValidationException ("Invalid Password");
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
