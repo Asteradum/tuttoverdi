@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 
-<!DOCTYPE gateway SYSTEM "gateway.dtd">
+<!DOCTYPE gateways SYSTEM "Gateway.dtd">
 	<gateways>
 				<gateway>	
-						<serviceName>ScalaMILANO</serviceName>
+						<serviceName>ScalaMilano</serviceName>
 						<technology>corba</technology>
 						<details>
 							<detail name="127.0.0.1"/>
@@ -19,10 +19,12 @@
 						</details>
 				</gateway>
 				<gateway>
-						<serviceName>WSAuthorization</serviceName>
-						<technology>webService</technology>
+						<serviceName>RoyalOperaLondon</serviceName>
+						<technology>jms</technology>
 						<details>
+							<detail  name="JMSRehearsal">
 						</details>
 				</gateway>
+			
 				
 		</gateways>
