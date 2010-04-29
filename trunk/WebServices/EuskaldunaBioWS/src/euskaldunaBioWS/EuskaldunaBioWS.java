@@ -1,15 +1,8 @@
 package euskaldunaBioWS;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-
+import javax.sql.*;
+import java.sql.*;
+import javax.naming.*;
 
 
 
@@ -47,11 +40,9 @@ public class EuskaldunaBioWS {
 			con.close();
 			stmt.close();
 			rs.close();
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
+		} catch (NamingException e) {			
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
