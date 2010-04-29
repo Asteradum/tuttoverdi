@@ -139,7 +139,7 @@
         <java classname="org.apache.axis2.wsdl.WSDL2Java" classpathref="classpath">
             <arg line="-uw"/>
             <arg line="-uri ${wsdl.uri}"/>
-            <arg line="-ns2p  http://authorization=rehearsalServer.loginGateway.proxies"/>
+            <arg line="-ns2p  http://authorization=rehearsalServer.loginGateway:proxies"/>
         </java>
     </target>
     
