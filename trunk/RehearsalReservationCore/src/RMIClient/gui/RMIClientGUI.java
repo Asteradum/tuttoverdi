@@ -144,7 +144,7 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 					Table = new JTable();
 					jScrollPane1.setViewportView(Table);
 					Table.setModel(model);
-					Table.setPreferredSize(new java.awt.Dimension(396, 82));
+					Table.setPreferredSize(new java.awt.Dimension(396, 250));
 				}
 			}
 			{
@@ -335,6 +335,7 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 					RehearsalRMIDTO r= null;
 					Iterator iter = list.iterator();
 					model.setRowCount(0);
+					
 					
 					while (iter.hasNext()){
 					  r = (RehearsalRMIDTO) iter.next();
