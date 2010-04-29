@@ -35,7 +35,6 @@ public class CorbaHouseGateway implements IOperaHGateway {
 			
 			org.omg.CORBA.Object objRef =orb.resolve_initial_references("NameService");
 			NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
-
 			ICorbaServer serverObject = ICorbaServerHelper.narrow(ncRef.resolve_str(serverName));
 			corbaServerRehearsalDTO List[] = serverObject.getRehearsals();
 			
@@ -43,7 +42,10 @@ public class CorbaHouseGateway implements IOperaHGateway {
 				RehearsalDO rDO= new RehearsalDO(List[i].operaName,List[i].date,List[i].seats);
 				result.add(rDO);	
 		    }
-		   }
+		    System.out.println("pasa por akiiiiiii");
+			  
+		}
+		
 		catch(Exception e) {
 			System.out.println("ERROR: " + e);
 			e.printStackTrace(System.out);
@@ -51,5 +53,11 @@ public class CorbaHouseGateway implements IOperaHGateway {
 			
 		 return result;	
 		}
+
+	@Override
+	public String getServer() {
+		// TODO Auto-generated method stub
+		return this.serverName;
+	}
 		
 }
