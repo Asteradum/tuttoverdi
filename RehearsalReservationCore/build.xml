@@ -6,8 +6,7 @@
     <property name="build.dir" location="bin"/>
 	<property name="dist.dir" location="dist"/>
 	<property name="codebase.dir" location="bin"/>
-	<property name="classpath" location="bin;lib/AuthorizationRMIClient.jar;lib/sqlitejdbc-v056.jar;lib/util_iso2.jar;lib/forms-1.1.0.jar"/>
-	
+	<property name="classpath" location="bin;lib/AuthorizationRMIClient.jar;lib/sqlitejdbc-v056.jar;lib/util_iso2.jar;lib/forms-1.1.0.jar;lib/activemq-all-5.3.0.jar"/>
 	<property name="idl.file" location="idl/corbaServer.idl"/>
 	<property name="policy.file" location="java.policy"/>
 		
@@ -45,7 +44,7 @@
 
 	<target name="help">
 		<echo> Usage: ant [idlj | build | tnameserv | ScalaMilanoServer | </echo>
-		<echo> SanCarloNapoliServer | RMIClient | rmiregistry | </echo>
+		<echo> SanCarloNapoliServer | RMIClient | rmiregistry | JMSOperaHouseSender | </echo>
 		<echo> RehearsalReservationServer | generate.stubs.AuthService | </echo>
 		<echo> AuthService | clean]</echo>
 	</target>
@@ -106,6 +105,12 @@
 			<arg value="${rmiregistry.port}" />
 		</exec>
 	</target>
+	
+	<target name="JMSOperaHouseSender" description="Runs JMS sender" >                     
+	        <java classname="JMSOperaHouse.JMSOperaHouseSender" classpath="${classpath}"  fork="true">
+	        	<arg value="JMSRehearsal"/>
+	        </java>
+   </target>
 	
 	<target name="RehearsalReservationServer" description="Executes RehearsalReservationServer program">
 		<java classname="rehearsalServer.OperaRehearsalServer" fork="true">

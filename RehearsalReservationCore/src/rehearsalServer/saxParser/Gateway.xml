@@ -22,7 +22,7 @@
 						<serviceName>RoyalOperaLondon</serviceName>
 						<technology>jms</technology>
 						<details>
-							<detail  name="JMSRehearsal">
+						<detail  name="JMSRehearsal" />
 						</details>
 				</gateway>
 			
