@@ -23,8 +23,10 @@ public class OperasHGatewayFactory {
 		IOperaHGateway the_gateway = null;
 		if (serverTech=="corba")
 			the_gateway=new CorbaHouseGateway(serviceUrl);
-		/*if (serverTech=="ws")
-			the_gateway=new WSHouseGateway();*/
+		if (serverTech=="ws")
+			the_gateway=new WSHouseGateway();
+		if (serverTech=="jms")
+			the_gateway=new JMSHouseGateway(serviceUrl);
 		
 
 		return the_gateway;

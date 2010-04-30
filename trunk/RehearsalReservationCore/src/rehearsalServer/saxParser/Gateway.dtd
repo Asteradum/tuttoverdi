@@ -1,5 +1,5 @@
 
-<!ELEMENT gateways (gateway)>
+<!ELEMENT gateways (gateway*)>
 <!-- Etiqueta raiz gateway -->
 <!ELEMENT gateway (serviceName, technology, details)>
 

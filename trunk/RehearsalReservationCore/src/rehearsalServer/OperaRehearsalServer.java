@@ -57,7 +57,6 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 		super();
 		rO=new RemoteObservable();
 		xmlMethod();
-		
 		rehearsalCache=getRehearsalCache(args);
 
 	}
@@ -66,10 +65,6 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 	{
 		rehearsalCache= new TreeMap<String,TreeMap<String, RehearsalRMIDTO>>();
 		innerMap=new TreeMap<String,RehearsalRMIDTO>();
-			
-		//OperasHGatewayFactory op= OperasHGatewayFactory.GetInstance();
-		//ScalaMilano
-		//IOperaHGateway gateway = op.getOperaHGateway(args[6] + ":" + args[7] + ":" + args[8], "corba");
 		List<rehearsalServer.houseGateway.RehearsalDO> list=null;
 		rehearsalServer.houseGateway.RehearsalDO rehearsal = null;
 		for (int j=0;j<finalGateways.size();j++)		
@@ -206,6 +201,10 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
         		}
         	else if (technology.equals("jms"))
         	{
+        		IOperaHGateway gateway = op.getOperaHGateway(gatewaysXML.get(i).getDetails().get(0)+":"+gatewaysXML.get(i).getServiceName(), "jms");
+        		System.out.println("ha llegadso aki");
+        		finalGateways.add(gateway);
+        		System.out.println(finalGateways.get(i).getServer());
         		
         	}
         	}

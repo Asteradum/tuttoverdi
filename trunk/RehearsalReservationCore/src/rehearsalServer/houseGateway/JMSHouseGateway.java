@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 import javax.jms.*;
 import javax.naming.Context;
@@ -18,20 +19,26 @@ public class JMSHouseGateway implements IOperaHGateway {
 	private String serverName= null;
 	private String queueName = null;
 	
+	public JMSHouseGateway (String servURL){
+		serverURL= servURL;
+		StringTokenizer tokens = new StringTokenizer(servURL,":");  
+		queueName= tokens.nextToken();
+		serverName = tokens.nextToken();
+	}
 	
 	public List<RehearsalDO> getRehearsals() {
 		
-		List<RehearsalDO> result = new ArrayList<RehearsalDO>();
-		result=receiver(this.queueName);
-		return result;
+		List<RehearsalDO> rehearsals = null;
+		rehearsals=receiver(this.queueName);
+		return rehearsals;
 	}
 
 	public List<RehearsalDO> receiver(String args)
 	
 	{
-		List<RehearsalDO> rehearsalList = null;
+		List<RehearsalDO> rehearsalList = new ArrayList<RehearsalDO>();
 		
-	String                  queueName = null;
+		String                  queueName = null;
         Context                 jndiContext = null;
         QueueConnectionFactory  queueConnectionFactory = null;
         QueueConnection         queueConnection = null;
@@ -41,7 +48,7 @@ public class JMSHouseGateway implements IOperaHGateway {
         ObjectMessage           objectMessage = null;
                 
         
-        queueName = new String("JMSRehearsal");
+        queueName = new String(args);
         System.out.println("Queue name is " + queueName);
         
         try {
@@ -71,12 +78,16 @@ public class JMSHouseGateway implements IOperaHGateway {
             queueConnection.start();
             while (true) {
                 Message m = queueReceiver.receive(1);
-                objectMessage = (ObjectMessage) m;
+                if (m != null) {
+                	if (m instanceof ObjectMessage) {
+	                objectMessage = (ObjectMessage) m;
                 RehearsalJMSDTO dto =  (RehearsalJMSDTO) objectMessage.getObject();
                 System.out.println("Reading message: " + dto.getDate() + ", " + dto.getOperaName());
                 RehearsalDO DO = new RehearsalDO (dto.getOperaName(),dto.getDate(),dto.getSeats());
                 rehearsalList.add(DO);
+                	}
             	}
+              }
         } catch (JMSException e) {
             System.out.println("Exception occurred: " + e.toString());
         } finally {
@@ -89,7 +100,7 @@ public class JMSHouseGateway implements IOperaHGateway {
 		return rehearsalList;
 	}
 
-
+	
 		
 
 	@Override
