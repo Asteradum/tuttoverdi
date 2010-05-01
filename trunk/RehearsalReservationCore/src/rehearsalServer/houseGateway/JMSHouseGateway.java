@@ -30,6 +30,7 @@ public class JMSHouseGateway implements IOperaHGateway {
 		
 		List<RehearsalDO> rehearsals = null;
 		rehearsals=receiver(this.queueName);
+		System.out.println(rehearsals.get(1).getOperaName()+"correcto");
 		return rehearsals;
 	}
 
@@ -48,8 +49,10 @@ public class JMSHouseGateway implements IOperaHGateway {
         ObjectMessage           objectMessage = null;
                 
         
-        queueName = new String(args);
+        //queueName = new String(args[0]);
+        queueName= new String("JMSRehearsal");
         System.out.println("Queue name is " + queueName);
+        
         
         try {
            	Properties props = new Properties();
@@ -79,15 +82,18 @@ public class JMSHouseGateway implements IOperaHGateway {
             while (true) {
                 Message m = queueReceiver.receive(1);
                 if (m != null) {
-                	if (m instanceof ObjectMessage) {
-	                objectMessage = (ObjectMessage) m;
-                RehearsalJMSDTO dto =  (RehearsalJMSDTO) objectMessage.getObject();
-                System.out.println("Reading message: " + dto.getDate() + ", " + dto.getOperaName());
-                RehearsalDO DO = new RehearsalDO (dto.getOperaName(),dto.getDate(),dto.getSeats());
-                rehearsalList.add(DO);
-                	}
+            		if (m instanceof ObjectMessage) {
+            			objectMessage = (ObjectMessage) m;
+		                RehearsalJMSDTO dto =  (RehearsalJMSDTO) objectMessage.getObject();
+		                System.out.println("lalalalal");
+		                System.out.println("Reading message: " + dto.getDate() + ", " + dto.getOperaName());
+		                RehearsalDO DO = new RehearsalDO (dto.getOperaName(),dto.getDate(),dto.getSeats());
+		                System.out.println(DO.getOperaName());
+		                rehearsalList.add(DO);
+		                System.out.println(rehearsalList.get(0).getDate()+"mensaje anadido");
+            		  }
+            		}
             	}
-              }
         } catch (JMSException e) {
             System.out.println("Exception occurred: " + e.toString());
         } finally {
