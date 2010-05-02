@@ -143,8 +143,8 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 	public static void main(String[] args) throws RemoteException{
 		
 		OperaRehearsalServer opRehearsal=new OperaRehearsalServer(args);
-		gateway = AuthorizationGatewayFactory.GetInstance().getAuthGateway("//" + args[0] + ":" + args[1] + "/" + args[2], "rmi");
-		
+		//gateway = AuthorizationGatewayFactory.GetInstance().getAuthGateway("//" + args[0] + ":" + args[1] + "/" + args[2], "rmi");
+		gateway = AuthorizationGatewayFactory.GetInstance().getAuthGateway(args[12], "ws");
 		
 		
 		if (System.getSecurityManager() == null) {

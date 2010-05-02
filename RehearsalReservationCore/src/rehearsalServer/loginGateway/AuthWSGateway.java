@@ -5,7 +5,8 @@ import java.rmi.RemoteException;
 import javax.naming.*;
 import javax.sql.*;
 
-import authorizationClient.AuthorizationWSStub;
+import org.apache.axis2.AxisFault;
+
 
 public class AuthWSGateway implements IAuthorizeGateway {
 
@@ -17,19 +18,21 @@ public class AuthWSGateway implements IAuthorizeGateway {
 	 * ValidationException
 	 * 
 	 */
-	
+	rehearsalServer.loginGateway.proxies.AuthorizationWSStub stub = null;
 	
 	public AuthWSGateway(String serviceURL) {
-		
+		try {
+			stub = new rehearsalServer.loginGateway.proxies.AuthorizationWSStub(serviceURL);
+		} catch (AxisFault e) {
+			e.printStackTrace();
+		}
 	}
 
 	public String login(String user, String pass) throws ValidationException {
 		String studentName = null;
 		
 		try {
-			AuthorizationWSStub stub = new AuthorizationWSStub(url);
-			String s = stub.login("stud1", "1111");
-			System.out.println("Student " + s);
+			String s = stub.login(user, pass);
 		} catch (Exception e) {
 			System.out.println("Exception Type: " + e.getClass().getSimpleName());
 			if (e.getMessage().contains("[InvalidUserException]")) {

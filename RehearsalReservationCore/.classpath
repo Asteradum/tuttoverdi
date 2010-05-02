@@ -6,5 +6,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/sqlitejdbc-v056.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/util_iso2.jar"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ActiveMQ Library"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Axis2 Library"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
