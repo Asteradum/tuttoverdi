@@ -13,7 +13,6 @@ public class prueba {
 		for (int i = 0; array.length<i; i++){
 			System.out.println(array[i].getOperaName() + "    " + array[i].getDate()+ "    " + array[i].getSeats());
 		}
-		
 
 	}
 
