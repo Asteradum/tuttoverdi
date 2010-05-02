@@ -14,7 +14,7 @@
 						<serviceName>SanCarloNapoli</serviceName>
 						<technology>corba</technology>
 						<details>
-							<detail  name="127.0.0.1" />
+							<detail name="127.0.0.1" />
 							<detail name="900"/>
 						</details>
 				</gateway>
@@ -22,7 +22,7 @@
 						<serviceName>RoyalOperaLondon</serviceName>
 						<technology>jms</technology>
 						<details>
-						<detail  name="JMSRehearsal" />
+						<detail name="JMSRehearsal" />
 						</details>
 				</gateway>
 			
