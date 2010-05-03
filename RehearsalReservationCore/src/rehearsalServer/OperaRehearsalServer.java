@@ -185,9 +185,7 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
         OperasHGatewayFactory op= OperasHGatewayFactory.GetInstance();
   	    
         for  (int i=0; i<gatewaysXML.size();i++){
-        	 String technology=gatewaysXML.get(i).getTechnology();
-        	
-             
+        	 String technology=gatewaysXML.get(i).getTechnology();      
         	 
         	 if (technology.equals("corba"))
         	 	{	        		 
@@ -196,18 +194,18 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
       			}
         	else if (technology.equals("ws"))
         		{
-	        		IOperaHGateway gateway = op.getOperaHGateway(gatewaysXML.get(i).getDetails().get(0) + ":" + gatewaysXML.get(i).getDetails().get(1) + ":" + gatewaysXML.get(i).getServiceName(), "ws");
+	        		IOperaHGateway gateway = op.getOperaHGateway( null, "ws");
 	        		finalGateways.add(gateway);
         		}
-        	else if (technology.equals("jms"))
+        /*	else if (technology.equals("jms"))
         	{
         		IOperaHGateway gateway = op.getOperaHGateway(gatewaysXML.get(i).getDetails().get(0)+":"+gatewaysXML.get(i).getServiceName(), "jms");
         		System.out.println("ha llegadso aki");
         		finalGateways.add(gateway);
         		System.out.println(finalGateways.get(i).getServer());
         		
-        	}
-        	}
+        	}*/
+        }
          
 	}
             

@@ -18,6 +18,12 @@
 							<detail name="900"/>
 						</details>
 				</gateway>
+				<gateway>	
+						<serviceName>EuskaldunaBio</serviceName>
+						<technology>ws</technology>
+						<details>
+						</details>
+				</gateway>
 				<gateway>
 						<serviceName>RoyalOperaLondon</serviceName>
 						<technology>jms</technology>
