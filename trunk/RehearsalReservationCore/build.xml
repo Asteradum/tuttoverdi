@@ -25,8 +25,11 @@
     <property name="RehearsalReservationServer.name" value="RehearsalReservationServer"/>
     <property name="axis2.home" value="${env.AXIS2_HOME}"/>
     <property name="AuthorizationWS.name" value="AuthorizationWS"/>
-    <property name="ws.uri" value="http://localhost:8080/axis2/services/${AuthorizationWS.name}"/>
-    <property name="wsdl.uri" value="${ws.uri}?wsdl"/>
+    <property name="AuthorizationWS.ws.uri" value="http://localhost:8080/axis2/services/${AuthorizationWS.name}"/>
+    <property name="AuthorizationWS.wsdl.uri" value="${ws.uri}?wsdl"/>
+    <property name="euskaldunaBioWS.name" value="EuskaldunaBio"/>
+    <property name="euskaldunaBioWS.ws.uri" value="http://localhost:8080/axis2/services/${euskaldunaBioWS.name}"/>
+    <property name="euskaldunaBioWS.wsdl.uri" value="${euskaldunaBioWS.ws.uri}?wsdl"/>
     <path id="classpath">
         <pathelement path="${classpath}"/>
         <fileset dir="${axis2.home}/lib">
@@ -111,7 +114,8 @@
             <arg value="${SanCarloNapoliServer.IP}"/>
             <arg value="${SanCarloNapoliServer.port}"/>
             <arg value="${SanCarloNapoliServer.name}"/>
-            <arg value="${ws.uri}"/>
+            <arg value="${AuthorizationWS.ws.uri}"/>
+            <arg value="${euskaldunaBioWS.ws.uri}"/>
         </java>
     </target>
     <target name="clean" description="Clean all build products.">
@@ -122,8 +126,15 @@
     <target name="generate.stubs.AuthService">
         <java classname="org.apache.axis2.wsdl.WSDL2Java" classpathref="classpath">
             <arg line="-uw"/>
-            <arg line="-uri ${wsdl.uri}"/>
-            <arg line="-ns2p  http://authorization=rehearsalServer.loginGateway.proxies"/>
+            <arg line="-uri ${AuthorizationWS.wsdl.uri}"/>
+            <arg line="-ns2p http://authorization=rehearsalServer.loginGateway.proxies"/>
+        </java>
+    </target>
+    <target name="generate.stubs.EuskaldunaWS">
+        <java classname="org.apache.axis2.wsdl.WSDL2Java" classpathref="classpath">
+            <arg line="-uw"/>
+            <arg line="-uri ${euskaldunaBioWS.wsdl.uri}"/>
+            <arg line="-ns2p http://euskaldunaBioWS=rehearsalServer.houseGateway.proxies"/>
         </java>
     </target>
 </project>

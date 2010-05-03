@@ -37,9 +37,9 @@ public class CorbaHouseGateway implements IOperaHGateway {
 			NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
 			ICorbaServer serverObject = ICorbaServerHelper.narrow(ncRef.resolve_str(serverName));
 			corbaServerRehearsalDTO List[] = serverObject.getRehearsals();
-			
+			RehearsalDO rDO= null;
 		    for (int i=0;i<List.length;i++){
-				RehearsalDO rDO= new RehearsalDO(List[i].operaName,List[i].date,List[i].seats);
+				rDO= new RehearsalDO(List[i].operaName,List[i].date,List[i].seats);
 				result.add(rDO);	
 		    }
 		    System.out.println("Corba getRehearsals done");
