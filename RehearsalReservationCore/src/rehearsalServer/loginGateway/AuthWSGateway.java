@@ -1,10 +1,5 @@
 package rehearsalServer.loginGateway;
 
-import java.rmi.RemoteException;
-
-import javax.naming.*;
-import javax.sql.*;
-
 import org.apache.axis2.AxisFault;
 
 
