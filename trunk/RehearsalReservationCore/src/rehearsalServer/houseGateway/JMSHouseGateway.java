@@ -79,9 +79,11 @@ public class JMSHouseGateway implements IOperaHGateway {
             queueSession = queueConnection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
             queueReceiver = queueSession.createReceiver(queue);
             queueConnection.start();
-            while (true) {
+            int i=0;
+            while (i==0) {
                 Message m = queueReceiver.receive(1);
                 if (m != null) {
+                	i=1;
             		if (m instanceof ObjectMessage) {
             			objectMessage = (ObjectMessage) m;
 		                RehearsalJMSDTO dto =  (RehearsalJMSDTO) objectMessage.getObject();
@@ -91,6 +93,7 @@ public class JMSHouseGateway implements IOperaHGateway {
 		                System.out.println(DO.getOperaName());
 		                rehearsalList.add(DO);
 		                System.out.println(rehearsalList.get(0).getDate()+"mensaje anadido");
+		                i=0;
             		  }
             		}
             	}
@@ -103,6 +106,7 @@ public class JMSHouseGateway implements IOperaHGateway {
                 } catch (JMSException e) {}
             }
         }
+        System.out.println ("returna");
 		return rehearsalList;
 	}
 
