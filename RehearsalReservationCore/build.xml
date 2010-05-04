@@ -24,6 +24,7 @@
     <property name="RehearsalReservationServer.port" value="1099"/>
     <property name="RehearsalReservationServer.name" value="RehearsalReservationServer"/>
     <property name="axis2.home" value="${env.AXIS2_HOME}"/>
+    <property name="activemq.home" value="${env.ACTIVEMQ_HOME}"/>
     <property name="AuthorizationWS.name" value="AuthorizationWS"/>
     <property name="AuthorizationWS.ws.uri" value="http://localhost:8080/axis2/services/${AuthorizationWS.name}"/>
     <property name="AuthorizationWS.wsdl.uri" value="${ws.uri}?wsdl"/>
@@ -35,12 +36,15 @@
         <fileset dir="${axis2.home}/lib">
             <include name="*.jar"/>
         </fileset>
+        <fileset dir="${activemq.home}">
+            <include name="*.jar"/>
+        </fileset>
     </path>
     <target name="help">
         <echo> Usage: ant [idlj | build | tnameserv | ScalaMilanoServer | </echo>
         <echo> SanCarloNapoliServer | RMIClient | rmiregistry | JMSOperaHouseSender | </echo>
         <echo> RehearsalReservationServer | generate.stubs.AuthService | </echo>
-        <echo> AuthService | clean]</echo>
+        <echo> generate.stubs.EuskaldunaWS | AuthService | clean]</echo>
     </target>
     <target name="idlj" description="Builds IDL file">
         <exec executable="${env.JAVA_HOME}\bin\idlj.exe">
@@ -93,7 +97,8 @@
         </exec>
     </target>
     <target name="JMSOperaHouseSender" description="Runs JMS sender">
-        <java classname="JMSOperaHouse.JMSOperaHouseSender" classpath="${classpath}" fork="true">
+        <java classname="JMSOperaHouse.JMSOperaHouseSender" fork="true">
+            <classpath refid="classpath"/>
             <arg value="JMSRehearsal"/>
         </java>
     </target>
@@ -108,33 +113,28 @@
             <arg value="${RehearsalReservationServer.IP}"/>
             <arg value="${RehearsalReservationServer.port}"/>
             <arg value="${RehearsalReservationServer.name}"/>
-            <arg value="${ScalaMilanoServer.IP}"/>
-            <arg value="${ScalaMilanoServer.port}"/>
-            <arg value="${ScalaMilanoServer.name}"/>
-            <arg value="${SanCarloNapoliServer.IP}"/>
-            <arg value="${SanCarloNapoliServer.port}"/>
-            <arg value="${SanCarloNapoliServer.name}"/>
-            <arg value="${AuthorizationWS.ws.uri}"/>
-            <arg value="${euskaldunaBioWS.ws.uri}"/>
         </java>
     </target>
+	<target name="generate.stubs.AuthService">
+	        <java classname="org.apache.axis2.wsdl.WSDL2Java" classpathref="classpath">
+	            <arg line="-uw"/>
+	            <arg line="-uri ${AuthorizationWS.wsdl.uri}"/>
+	            <arg line="-ns2p http://authorization=rehearsalServer.loginGateway.proxies"/>
+	        </java>
+	    </target>
+	    <target name="generate.stubs.EuskaldunaWS">
+	        <java classname="org.apache.axis2.wsdl.WSDL2Java" classpathref="classpath">
+	            <arg line="-uw"/>
+	            <arg line="-uri ${euskaldunaBioWS.wsdl.uri}"/>
+	            <arg line="-ns2p http://euskaldunaBioWS=rehearsalServer.houseGateway.proxies"/>
+	        </java>
+	    </target>
     <target name="clean" description="Clean all build products.">
         <delete dir="${build.dir}"/>
-        <delete dir="${dist.dir}"/>
-        <delete dir="${source.dir}/validationClient/proxies"/>
+        <delete dir="${source.dir}/rehearsalServer/houseGateway/proxies"/>
+    	<delete dir="${source.dir}/rehearsalServer/loginGateway/proxies"/>
+    	<delete dir="${source.dir}/corbaServer/corba"/>
+    	<delete dir="${source.dir}/corbaServer/corba/ICorbaServerPackage"/>
     </target>
-    <target name="generate.stubs.AuthService">
-        <java classname="org.apache.axis2.wsdl.WSDL2Java" classpathref="classpath">
-            <arg line="-uw"/>
-            <arg line="-uri ${AuthorizationWS.wsdl.uri}"/>
-            <arg line="-ns2p http://authorization=rehearsalServer.loginGateway.proxies"/>
-        </java>
-    </target>
-    <target name="generate.stubs.EuskaldunaWS">
-        <java classname="org.apache.axis2.wsdl.WSDL2Java" classpathref="classpath">
-            <arg line="-uw"/>
-            <arg line="-uri ${euskaldunaBioWS.wsdl.uri}"/>
-            <arg line="-ns2p http://euskaldunaBioWS=rehearsalServer.houseGateway.proxies"/>
-        </java>
-    </target>
+    
 </project>

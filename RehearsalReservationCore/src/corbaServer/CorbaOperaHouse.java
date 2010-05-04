@@ -13,7 +13,6 @@ import org.omg.PortableServer.POAHelper;
 
 import corbaServer.corba.ICorbaServer;
 import corbaServer.corba.ICorbaServerHelper;
-import corbaServer.corba.Server;
 
 public class CorbaOperaHouse {
 

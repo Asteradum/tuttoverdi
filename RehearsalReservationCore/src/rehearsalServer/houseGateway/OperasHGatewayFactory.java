@@ -24,7 +24,7 @@ public class OperasHGatewayFactory {
 		if (serverTech=="corba")
 			the_gateway=new CorbaHouseGateway(serviceUrl);
 		if (serverTech=="ws")
-			the_gateway=new WSHouseGateway();
+			the_gateway=new WSHouseGateway(serviceUrl);
 		if (serverTech=="jms")
 			the_gateway=new JMSHouseGateway(serviceUrl);
 		
