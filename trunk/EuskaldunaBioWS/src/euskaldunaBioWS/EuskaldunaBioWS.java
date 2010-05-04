@@ -8,7 +8,7 @@ import javax.naming.*;
 
 public class EuskaldunaBioWS {
 
-	private RehearsalDTO[] list = null;
+	private RehearsalDTO list[] = null;
 	
 	public EuskaldunaBioWS() {
 		setRehearsals();
@@ -26,7 +26,10 @@ public class EuskaldunaBioWS {
 			DataSource ds = (DataSource) envCtx.lookup("jdbc/euskaldunaBioDB");
 			con = ds.getConnection();
 			stmt = con.createStatement();
-			String sql = "select * from rehearsalsT";
+			String sql = "select count(*) from rehearsalsT";
+			rs = stmt.executeQuery(sql);
+			list = new RehearsalDTO[rs.getInt(1)];
+			sql = "select * from rehearsalsT";
 			rs = stmt.executeQuery(sql);
 			
 			int i=0;
