@@ -30,12 +30,19 @@
         <mkdir dir="${dist.dir}/${service.name}"/>
         <mkdir dir="${dist.dir}/${service.name}/META-INF"/>
     </target>
-    <target name="generate.service" depends="compile">
-        <copy file="${service.descriptor}" tofile="${dist.dir}/${service.name}/META-INF/services.xml" overwrite="true"/>
-        <copy todir="${dist.dir}/${service.name}">
-            <fileset dir="${build.dir}"/>
-        </copy>
-        <jar basedir="${dist.dir}/${service.name}" destfile="${dist.dir}/${service.name}.aar"/>
+	<target name="compile.service" depends="prepare">
+	        <javac debug="true" srcdir="${source.dir}" destdir="${build.dir}" deprecation="true" fork="true">
+	            <classpath refid="classpath"/>
+	        </javac>
+	    </target>
+	<target name="build.service" depends="compile.service">
+	        <copy file="${service.descriptor}" tofile="${dist.dir}/${service.name}/META-INF/services.xml" overwrite="true"/>
+	        <copy todir="${dist.dir}/${service.name}">
+	            <fileset dir="${build.dir}"/>
+	        </copy>
+	        <jar basedir="${dist.dir}/${service.name}" destfile="${dist.dir}/${service.name}.aar"/>
+	    </target>
+    <target name="deploy.service" depends="build.service">
         <copy file="${dist.dir}/${service.name}.aar" tofile="${deploy.dir}/${service.name}.aar" overwrite="true"/>
     </target>
     <target name="generate.stubs">
@@ -45,19 +52,16 @@
             <arg line="-ns2p  http://euskaldunaBioWS=euskaldunaBioWS.stub"/>
         </java>
     </target>
-    <target name="compile">
-        <javac debug="true" srcdir="${source.dir}" destdir="${build.dir}" deprecation="true" fork="true">
-            <classpath refid="classpath"/>
-        </javac>
-    </target>
+    
     <target name="help">
         <echo>
 	  	You must type: ant [task]
 		[task]:
 	  		- prepare
-	  		- generate.service
+        	- compile.service
+        	- build.service
+	  		- deploy.service
 	  		- generate.stubs
-			- compile
 	  		- clean
 	  		</echo>
     </target>
