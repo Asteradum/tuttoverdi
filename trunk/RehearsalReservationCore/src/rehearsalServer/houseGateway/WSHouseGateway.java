@@ -10,11 +10,21 @@ import rehearsalServer.houseGateway.proxies.EuskaldunaBioStub;
 import rehearsalServer.houseGateway.proxies.EuskaldunaBioStub.RehearsalDTO;
 
 public class WSHouseGateway implements IOperaHGateway {
-
-	public List<RehearsalDO> getRehearsals() {
-		EuskaldunaBioStub stub = null;
+	
+	
+	EuskaldunaBioStub stub = null;
+	
+	public WSHouseGateway(String serviceUri){
 		try {
-			stub = new EuskaldunaBioStub();
+			stub = new EuskaldunaBioStub(serviceUri);
+		} catch (AxisFault e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public List<RehearsalDO> getRehearsals() {
+		
+		try {			
 			RehearsalDTO[] list = stub.getRehearsals();
 			List<RehearsalDO> returnList = new ArrayList<RehearsalDO>();
 			RehearsalDO rDO= null;
@@ -22,6 +32,7 @@ public class WSHouseGateway implements IOperaHGateway {
 				rDO= new RehearsalDO(list[i].getOperaName(),list[i].getDate(),list[i].getSeats());
 				returnList.add(rDO);
 			}
+			System.out.println("WS getRehearsals done");
 			return returnList;
 		} catch (AxisFault e) {
 			e.printStackTrace();
@@ -35,6 +46,6 @@ public class WSHouseGateway implements IOperaHGateway {
 	@Override
 	public String getServer() {
 		// TODO Auto-generated method stub
-		return null;
+		return "EuskaldunaBioWS";
 	}
 }

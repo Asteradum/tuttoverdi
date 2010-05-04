@@ -22,6 +22,9 @@
 						<serviceName>EuskaldunaBio</serviceName>
 						<technology>ws</technology>
 						<details>
+						<detail name="localhost" />
+						<detail name="8080"/>
+						<detail name="EuskaldunaBio"/>
 						</details>
 				</gateway>
 				<gateway>

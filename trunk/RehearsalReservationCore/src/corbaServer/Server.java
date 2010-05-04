@@ -1,10 +1,12 @@
-package corbaServer.corba;
+package corbaServer;
 
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
-import corbaServer.RehearsalDO;
+import corbaServer.corba.DBErrorException;
+import corbaServer.corba.ICorbaServerPOA;
+import corbaServer.corba.corbaServerRehearsalDTO;
 import corbaServer.dao.CorbaOperaHouseDAO;
 
 public class Server extends ICorbaServerPOA {

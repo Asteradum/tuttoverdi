@@ -171,9 +171,7 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
 		finalGateways = new ArrayList<IOperaHGateway>();
         factory.setValidating(true);
         
-        try {
-        	System.out.println("ANALISIS DE UN DOCUMENTO XML USANDO SAX");
-			System.out.println("-------- -- -- --------- --- ------ ---");            
+        try {         
         	SAXParser saxParser = factory.newSAXParser();
             HouseGatewaysSAXParserHandler handler = new HouseGatewaysSAXParserHandler();                        
             saxParser.parse("src/rehearsalServer/saxParser/Gateway.xml", handler);
@@ -183,7 +181,6 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
             System.out.println("Error -> Main():" + e.getMessage());
             e.printStackTrace();}
         OperasHGatewayFactory op= OperasHGatewayFactory.GetInstance();
-  	    
         for  (int i=0; i<gatewaysXML.size();i++){
         	 String technology=gatewaysXML.get(i).getTechnology();      
         	 
@@ -194,17 +191,17 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
       			}
         	else if (technology.equals("ws"))
         		{
-	        		IOperaHGateway gateway = op.getOperaHGateway( null, "ws");
+	        		IOperaHGateway gateway = op.getOperaHGateway( "http://" + gatewaysXML.get(i).getDetails().get(0) +":" + gatewaysXML.get(i).getDetails().get(1) + "/axis2/services/" + gatewaysXML.get(i).getDetails().get(2) + "?wsdl", "ws");
 	        		finalGateways.add(gateway);
         		}
-        /*	else if (technology.equals("jms"))
+        	else if (technology.equals("jms"))
         	{
         		IOperaHGateway gateway = op.getOperaHGateway(gatewaysXML.get(i).getDetails().get(0)+":"+gatewaysXML.get(i).getServiceName(), "jms");
         		System.out.println("ha llegadso aki");
         		finalGateways.add(gateway);
         		System.out.println(finalGateways.get(i).getServer());
         		
-        	}*/
+        	}
         }
          
 	}
