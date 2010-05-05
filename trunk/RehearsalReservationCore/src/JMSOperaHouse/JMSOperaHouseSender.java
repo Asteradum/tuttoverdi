@@ -77,7 +77,6 @@ public class JMSOperaHouseSender {
 	            	objectMessage.setObject(dto);
 	            	System.out.println("Sending "+i+"º object message ");
 	            		queueSender.send(objectMessage);
-	            		System.out.println(objectMessage.toString());
 	            }
 	            
 	            
