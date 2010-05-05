@@ -27,7 +27,7 @@
     <property name="activemq.home" value="${env.ACTIVEMQ_HOME}"/>
     <property name="AuthorizationWS.name" value="AuthorizationWS"/>
     <property name="AuthorizationWS.ws.uri" value="http://localhost:8080/axis2/services/${AuthorizationWS.name}"/>
-    <property name="AuthorizationWS.wsdl.uri" value="${ws.uri}?wsdl"/>
+    <property name="AuthorizationWS.wsdl.uri" value="${AuthorizationWS.ws.uri}?wsdl"/>
     <property name="euskaldunaBioWS.name" value="EuskaldunaBio"/>
     <property name="euskaldunaBioWS.ws.uri" value="http://localhost:8080/axis2/services/${euskaldunaBioWS.name}"/>
     <property name="euskaldunaBioWS.wsdl.uri" value="${euskaldunaBioWS.ws.uri}?wsdl"/>
