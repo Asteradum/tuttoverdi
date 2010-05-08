@@ -42,8 +42,7 @@ public class CorbaHouseGateway implements IOperaHGateway {
 				rDO= new RehearsalDO(List[i].operaName,List[i].date,List[i].seats);
 				result.add(rDO);	
 		    }
-		    System.out.println("Corba getRehearsals done");
-			  
+		      
 		}
 		
 		catch(Exception e) {

@@ -75,7 +75,7 @@ public class JMSOperaHouseSender {
 	            	RehearsalJMSDTO dto=new RehearsalJMSDTO(rehearsals.get(i).getOperaName(),rehearsals.get(i).getDate(),rehearsals.get(i).getSeats());
 	            	System.out.println(dto.getOperaName());
 	            	objectMessage.setObject(dto);
-	            	System.out.println("Sending "+i+"º object message ");
+	            	System.out.println("Sending "+i+" object message ");
 	            		queueSender.send(objectMessage);
 	            }
 	            
