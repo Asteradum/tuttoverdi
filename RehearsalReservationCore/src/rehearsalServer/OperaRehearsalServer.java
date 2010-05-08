@@ -196,9 +196,7 @@ public class OperaRehearsalServer extends UnicastRemoteObject implements IOperaR
         	else if (technology.equals("jms"))
         	{
         		IOperaHGateway gateway = op.getOperaHGateway(gatewaysXML.get(i).getDetails().get(0)+":"+gatewaysXML.get(i).getServiceName(), "jms");
-        		System.out.println("ha llegadso aki");
         		finalGateways.add(gateway);
-        		System.out.println(finalGateways.get(i).getServer());
         		
         	}
         }

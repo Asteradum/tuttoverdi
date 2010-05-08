@@ -17,20 +17,20 @@ public class HouseGatewaysSAXParserHandler extends DefaultHandler {
 		
 		
 		public void startDocument() throws SAXException {
-			System.out.println("# Comenzando el parseo del documento...");
+			System.out.println("# Starting the document parsing...");
 			this.gatewayObject = new GatewayObject();
 			this.texto = "";
 		}
 
 		public void endDocument() throws SAXException {
-			System.out.println("# Parseo del documento finalizado.");
+			System.out.println("# Document parse ended.");
 		}
 
 		public void startElement(String namespaceURI, String lName, // local name
 				String qName, // qualified nameqName contiene el nombre cualificado de la etiqueta encontrada. 
 				Attributes attrs) throws SAXException { //es una estructura de datos que contiene la lista de atributos de la etiqueta encontrad
 
-			System.out.println(" * [Etiqueta] -> <" + qName + ">");
+			System.out.println(" * [Label] -> <" + qName + ">");
 
 			if (qName.equals("gateway")) {
 				this.gatewayObject=new GatewayObject();
@@ -47,7 +47,7 @@ public class HouseGatewaysSAXParserHandler extends DefaultHandler {
 		public void endElement(String namespaceURI, String lName, String qName)
 				throws SAXException {
 			if (this.texto.length() > 0) {
-				System.out.println("    - [Texto] -> " + texto);
+				System.out.println("    - [Text] -> " + texto);
 				if (qName.equals("serviceName")) {
 					this.gatewayObject.setServiceName(this.texto);
 				} else if (qName.equals("technology")) {
@@ -56,7 +56,7 @@ public class HouseGatewaysSAXParserHandler extends DefaultHandler {
 			}
 
 			this.texto = "";
-			System.out.println(" * [Etiqueta] -> </" + qName + ">");
+			System.out.println(" * [Label] -> </" + qName + ">");
 		}
 
 		public void characters(char[] ch, int start, int length)

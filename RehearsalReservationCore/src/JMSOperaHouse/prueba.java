@@ -64,11 +64,9 @@ public class prueba {
             	Message m = queueReceiver.receive(1);
                 objectMessage = (ObjectMessage) m;
                 RehearsalJMSDTO dto =  (RehearsalJMSDTO) objectMessage.getObject();
-                System.out.println("lalalalal");
                 System.out.println("Reading message: " + dto.getDate() + ", " + dto.getOperaName());
                 RehearsalDO DO = new RehearsalDO (dto.getOperaName(),dto.getDate(),dto.getSeats());
-                System.out.println(DO.getOperaName());
-            }
+                }
         } catch (JMSException e) {
             System.out.println("Exception occurred: " + e.toString());
         } finally {
