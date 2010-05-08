@@ -27,15 +27,16 @@ public class AuthWSGateway implements IAuthorizeGateway {
 		String studentName = null;
 		
 		try {
-			String s = stub.login(user, pass);
+			studentName = stub.login(user, pass);
+			System.out.println(studentName);
 		} catch (Exception e) {
 			System.out.println("Exception Type: " + e.getClass().getSimpleName());
 			if (e.getMessage().contains("[InvalidUserException]")) {
 				System.out.println("*** NON VALID STUDENT ***");
-				System.out.println(e.getMessage());
+				throw new ValidationException(e.getMessage());
 			}else if (e.getMessage().contains("[InvalidPasswordException]")) {
 				System.out.println("*** INVALID PASSWORD ***");
-				System.out.println(e.getMessage());
+				throw new ValidationException(e.getMessage());
 			}
 			else e.printStackTrace();
 		}		
