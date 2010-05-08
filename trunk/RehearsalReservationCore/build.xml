@@ -14,6 +14,7 @@
     <property name="AuthorizationServiceRMI.IP" value="127.0.0.1"/>
     <property name="AuthorizationServiceRMI.port" value="1099"/>
     <property name="AuthorizationServiceRMI.name" value="AuthorizationService"/>
+    <property name="AuthorizationServiceRMI.uri" value="//$(AuthorizationServiceRMI.IP):$(AuthorizationServiceRMI.port)/$(AuthorizationServiceRMI.name)"/>
     <property name="ScalaMilanoServer.IP" value="127.0.0.1"/>
     <property name="ScalaMilanoServer.port" value="900"/>
     <property name="ScalaMilanoServer.name" value="ScalaMilano"/>
@@ -28,6 +29,7 @@
     <property name="AuthorizationWS.name" value="AuthorizationWS"/>
     <property name="AuthorizationWS.ws.uri" value="http://localhost:8080/axis2/services/${AuthorizationWS.name}"/>
     <property name="AuthorizationWS.wsdl.uri" value="${AuthorizationWS.ws.uri}?wsdl"/>
+    <property name="Authorization.type" value="ws"/>
     <property name="euskaldunaBioWS.name" value="EuskaldunaBio"/>
     <property name="euskaldunaBioWS.ws.uri" value="http://localhost:8080/axis2/services/${euskaldunaBioWS.name}"/>
     <property name="euskaldunaBioWS.wsdl.uri" value="${euskaldunaBioWS.ws.uri}?wsdl"/>
@@ -102,39 +104,37 @@
             <arg value="JMSRehearsal"/>
         </java>
     </target>
-    <target name="RehearsalReservationServer" description="Executes RehearsalReservationServer program">
+    <target name="RehearsalReservationServer" description="Executes RehearsalReservationServer program" depends="JMSOperaHouseSender">
         <java classname="rehearsalServer.OperaRehearsalServer" fork="true">
             <classpath refid="classpath"/>
             <jvmarg value="-Djava.rmi.server.codebase=file:${codebase.dir}/ file:lib/util_iso2.jar"/>
             <jvmarg value="-Djava.security.policy=${policy.file}"/>
-            <arg value="${AuthorizationServiceRMI.IP}"/>
-            <arg value="${AuthorizationServiceRMI.port}"/>
-            <arg value="${AuthorizationServiceRMI.name}"/>
             <arg value="${RehearsalReservationServer.IP}"/>
             <arg value="${RehearsalReservationServer.port}"/>
             <arg value="${RehearsalReservationServer.name}"/>
+            <arg value="${AuthorizationWS.ws.uri}"/>
+            <arg value="${Authorization.type}"/>
         </java>
     </target>
-	<target name="generate.stubs.AuthService">
-	        <java classname="org.apache.axis2.wsdl.WSDL2Java" classpathref="classpath">
-	            <arg line="-uw"/>
-	            <arg line="-uri ${AuthorizationWS.wsdl.uri}"/>
-	            <arg line="-ns2p http://authorization=rehearsalServer.loginGateway.proxies"/>
-	        </java>
-	    </target>
-	    <target name="generate.stubs.EuskaldunaWS">
-	        <java classname="org.apache.axis2.wsdl.WSDL2Java" classpathref="classpath">
-	            <arg line="-uw"/>
-	            <arg line="-uri ${euskaldunaBioWS.wsdl.uri}"/>
-	            <arg line="-ns2p http://euskaldunaBioWS=rehearsalServer.houseGateway.proxies"/>
-	        </java>
-	    </target>
+    <target name="generate.stubs.AuthService">
+        <java classname="org.apache.axis2.wsdl.WSDL2Java" classpathref="classpath">
+            <arg line="-uw"/>
+            <arg line="-uri ${AuthorizationWS.wsdl.uri}"/>
+            <arg line="-ns2p http://authorization=rehearsalServer.loginGateway.proxies"/>
+        </java>
+    </target>
+    <target name="generate.stubs.EuskaldunaWS">
+        <java classname="org.apache.axis2.wsdl.WSDL2Java" classpathref="classpath">
+            <arg line="-uw"/>
+            <arg line="-uri ${euskaldunaBioWS.wsdl.uri}"/>
+            <arg line="-ns2p http://euskaldunaBioWS=rehearsalServer.houseGateway.proxies"/>
+        </java>
+    </target>
     <target name="clean" description="Clean all build products.">
         <delete dir="${build.dir}"/>
         <delete dir="${source.dir}/rehearsalServer/houseGateway/proxies"/>
-    	<delete dir="${source.dir}/rehearsalServer/loginGateway/proxies"/>
-    	<delete dir="${source.dir}/corbaServer/corba"/>
-    	<delete dir="${source.dir}/corbaServer/corba/ICorbaServerPackage"/>
+        <delete dir="${source.dir}/rehearsalServer/loginGateway/proxies"/>
+        <delete dir="${source.dir}/corbaServer/corba"/>
+        <delete dir="${source.dir}/corbaServer/corba/ICorbaServerPackage"/>
     </target>
-    
 </project>

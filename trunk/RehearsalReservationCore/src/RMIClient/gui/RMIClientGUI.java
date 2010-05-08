@@ -75,6 +75,7 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 	
 	private RehearsalController controller = null;
 	List <RehearsalRMIDTO> list = null;
+	private boolean logged = false;
 	
 	
 	public void update(java.util.Observable o, Object arg) {
@@ -322,6 +323,7 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 				try {
 					studentName.setText(controller.login(user, pass));
 					statusBar1.setText("Welcome "+studentName.getText()+"!:)");
+					logged = true;
 				} catch (ValidationException e1) {
 					statusBar1.setText(e1.getMessage());
 					e1.printStackTrace();
@@ -330,27 +332,26 @@ public class RMIClientGUI  extends javax.swing.JFrame implements Observer , Acti
 			else if (buttonPressed==rehearsals){
 				
 				try {
-					list = controller.getRehearsals();					
-					statusBar1.setText("List of Rehearsals");
-					RehearsalRMIDTO r= null;
-					Iterator iter = list.iterator();
-					model.setRowCount(0);
-					
-					
-					while (iter.hasNext()){
-					  r = (RehearsalRMIDTO) iter.next();
-					  										  
-					  Object [] row = new Object[4];
-					  row[0] = r.getOperaHouse();
-					  row[1] = r.getOperaName();
-					  row[2] = r.getDate();
-					  row[3] = r.getAvailableSeats();
-					  
-					  model.addRow ( row );
-					  
-				  }
-					
-					
+					if (logged){
+						list = controller.getRehearsals();					
+						statusBar1.setText("List of Rehearsals");
+						RehearsalRMIDTO r= null;
+						Iterator iter = list.iterator();
+						model.setRowCount(0);
+						
+						
+						while (iter.hasNext()){
+						  r = (RehearsalRMIDTO) iter.next();
+						  										  
+						  Object [] row = new Object[4];
+						  row[0] = r.getOperaHouse();
+						  row[1] = r.getOperaName();
+						  row[2] = r.getDate();
+						  row[3] = r.getAvailableSeats();
+						  
+						  model.addRow ( row );				
+						}
+					}else statusBar1.setText("You are not logged");	
 				} catch (RemoteException e1) {
 					statusBar1.setText("An error has occurred");
 					e1.printStackTrace();
