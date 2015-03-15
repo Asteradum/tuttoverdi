@@ -1,0 +1,1 @@
+tutto verdi is a project created to make the SOE II practices of Deusto-Spain in computing Science
